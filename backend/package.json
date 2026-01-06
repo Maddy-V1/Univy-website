@@ -1,0 +1,36 @@
+{
+    "name": "college-tech-univy-backend",
+    "version": "1.0.0",
+    "description": "Backend API for College Tech Univy - B2B SaaS for Colleges",
+    "main": "src/server.js",
+    "scripts": {
+        "start": "node src/server.js",
+        "dev": "nodemon src/server.js"
+    },
+    "dependencies": {
+        "express": "^4.18.0",
+        "mongoose": "^8.0.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.0",
+        "nodemailer": "^6.9.0",
+        "express-validator": "^7.0.0",
+        "helmet": "^7.1.0",
+        "morgan": "^1.10.0",
+        "express-rate-limit": "^7.1.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "keywords": [
+        "college",
+        "education",
+        "saas",
+        "portal",
+        "api"
+    ],
+    "author": "College Tech - Univy Team",
+    "license": "UNLICENSED"
+}

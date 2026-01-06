@@ -1,0 +1,268 @@
+/* =============================================
+   BUTTON COMPONENT STYLES - ENHANCED PREMIUM VERSION
+   Gradients, 3D Effects, Micro-Animations
+   ============================================= */
+
+.button {
+    font-family: var(--font-accent);
+    font-weight: var(--font-semibold);
+    font-size: var(--text-base);
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-lg);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    letter-spacing: 0.01em;
+}
+
+/* Shine sweep effect */
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 50%,
+            transparent 100%);
+    transition: left 0.6s ease;
+}
+
+.button:hover::before {
+    left: 100%;
+}
+
+/* ========================
+   BUTTON VARIANTS
+   ======================== */
+
+/* Primary - Premium Gradient */
+.primary {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A855F7 100%);
+    color: var(--white);
+    box-shadow:
+        0 10px 30px -10px rgba(139, 92, 246, 0.5),
+        0 0 20px -8px rgba(99, 102, 241, 0.3);
+}
+
+.primary:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow:
+        0 20px 40px -10px rgba(139, 92, 246, 0.6),
+        0 0 40px -10px rgba(99, 102, 241, 0.4);
+}
+
+.primary:active {
+    transform: translateY(-2px) scale(1.01);
+}
+
+/* Glow effect ring */
+.primary::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: calc(var(--radius-lg) + 3px);
+    background: inherit;
+    z-index: -1;
+    opacity: 0;
+    filter: blur(15px);
+    transition: opacity 0.4s ease;
+}
+
+.primary:hover::after {
+    opacity: 0.5;
+}
+
+/* Secondary - Outlined with fill on hover */
+.secondary {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 2px solid rgba(99, 102, 241, 0.4);
+}
+
+.secondary:hover {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    color: var(--white);
+    border-color: transparent;
+    transform: translateY(-4px);
+    box-shadow:
+        0 15px 35px -10px rgba(139, 92, 246, 0.4),
+        0 0 20px -8px rgba(99, 102, 241, 0.3);
+}
+
+/* Ghost - Minimal with subtle interaction */
+.ghost {
+    background: transparent;
+    color: var(--neutral-700);
+    padding: var(--space-3) var(--space-4);
+}
+
+.ghost:hover {
+    background: rgba(139, 92, 246, 0.08);
+    color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
+/* Glass - Premium Glassmorphism */
+.glass {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+}
+
+.glass:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-4px);
+    box-shadow:
+        0 15px 35px -10px rgba(0, 0, 0, 0.2),
+        0 0 20px -8px rgba(255, 255, 255, 0.1);
+}
+
+/* Success - Emerald Gradient */
+.success {
+    background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+    color: var(--white);
+    box-shadow:
+        0 10px 30px -10px rgba(16, 185, 129, 0.5),
+        0 0 20px -8px rgba(6, 182, 212, 0.3);
+}
+
+.success:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow:
+        0 20px 40px -10px rgba(16, 185, 129, 0.6),
+        0 0 40px -10px rgba(6, 182, 212, 0.4);
+}
+
+/* Danger - Red Gradient */
+.danger {
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+    color: var(--white);
+    box-shadow:
+        0 10px 30px -10px rgba(239, 68, 68, 0.4),
+        0 0 20px -8px rgba(220, 38, 38, 0.3);
+}
+
+.danger:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 20px 40px -10px rgba(239, 68, 68, 0.5),
+        0 0 40px -10px rgba(220, 38, 38, 0.4);
+}
+
+/* ========================
+   BUTTON SIZES
+   ======================== */
+
+.small {
+    font-size: var(--text-sm);
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-md);
+}
+
+.medium {
+    font-size: var(--text-base);
+    padding: var(--space-4) var(--space-8);
+}
+
+.large {
+    font-size: var(--text-lg);
+    padding: var(--space-5) var(--space-12);
+    border-radius: var(--radius-xl);
+}
+
+/* ========================
+   BUTTON STATES
+   ======================== */
+
+.fullWidth {
+    width: 100%;
+}
+
+.disabled,
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none !important;
+}
+
+.loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid currentColor;
+    border-color: white transparent white transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Icon Positioning */
+.iconLeft {
+    flex-direction: row;
+}
+
+.iconRight {
+    flex-direction: row-reverse;
+}
+
+.icon {
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.button:hover .icon {
+    transform: translateX(3px);
+}
+
+.iconLeft .icon {
+    transform: translateX(0);
+}
+
+.button:hover .iconLeft .icon {
+    transform: translateX(-3px);
+}
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+@media (max-width: 640px) {
+    .large {
+        padding: var(--space-4) var(--space-8);
+        font-size: var(--text-base);
+    }
+
+    .button:hover {
+        transform: translateY(-2px);
+    }
+}

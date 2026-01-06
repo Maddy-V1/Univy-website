@@ -1,0 +1,300 @@
+/* =============================================
+   NAVBAR COMPONENT STYLES - ENHANCED PREMIUM VERSION
+   Advanced Glassmorphism Navigation
+   ============================================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-sticky);
+    padding: var(--space-5) 0;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: slideDown 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 4px 30px rgba(0, 0, 0, 0.05),
+        0 0 40px -10px rgba(139, 92, 246, 0.1);
+    padding: var(--space-3) 0;
+}
+
+.navbarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+}
+
+/* Logo Styles */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.02);
+}
+
+.logoImage {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.logoText {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A855F7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+}
+
+.logoTextLight {
+    color: var(--white);
+    -webkit-text-fill-color: var(--white);
+    background: none;
+}
+
+/* Navigation Links */
+.navLinks {
+    display: none;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.navLink {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--neutral-600);
+    text-decoration: none;
+    position: relative;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.navLink.light {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Subtle background on hover */
+.navLink::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    border-radius: var(--radius-md);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.navLink:hover::before {
+    opacity: 1;
+}
+
+/* Animated underline */
+.navLink::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366F1, #8B5CF6);
+    border-radius: 1px;
+    transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.navLink:hover::after,
+.navLink.active::after {
+    width: calc(100% - 24px);
+}
+
+.navLink:hover {
+    color: var(--primary-blue);
+}
+
+.navLink.light:hover {
+    color: var(--white);
+}
+
+.navLink.active {
+    color: var(--primary-blue);
+}
+
+.navLink.light.active {
+    color: var(--white);
+}
+
+/* CTA Button */
+.navCta {
+    display: none;
+}
+
+/* Mobile Menu Toggle */
+.mobileMenuBtn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    gap: 6px;
+    padding: var(--space-2);
+    background: rgba(139, 92, 246, 0.1);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mobileMenuBtn:hover {
+    background: rgba(139, 92, 246, 0.15);
+}
+
+.mobileMenuBtn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--neutral-700);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.mobileMenuBtn.light {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mobileMenuBtn.light:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.mobileMenuBtn.light span {
+    background: var(--white);
+}
+
+.mobileMenuBtn.open span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobileMenuBtn.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.mobileMenuBtn.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Mobile Menu */
+.mobileMenu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-xl);
+    box-shadow:
+        0 20px 40px -10px rgba(0, 0, 0, 0.15),
+        0 0 40px -10px rgba(139, 92, 246, 0.1);
+    padding: var(--space-4);
+    animation: fadeInMenu 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes fadeInMenu {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.mobileMenu.open {
+    display: block;
+}
+
+.mobileNavLink {
+    display: block;
+    padding: var(--space-4);
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    color: var(--neutral-700);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
+.mobileNavLink:hover {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--primary-blue);
+    padding-left: var(--space-6);
+}
+
+.mobileNavCta {
+    margin-top: var(--space-4);
+    width: 100%;
+}
+
+/* Desktop Styles */
+@media (min-width: 1025px) {
+    .navLinks {
+        display: flex;
+    }
+
+    .navCta {
+        display: block;
+    }
+
+    .mobileMenuBtn {
+        display: none;
+    }
+
+    .mobileMenu {
+        display: none !important;
+    }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .mobileMenu {
+        left: 24px;
+        right: 24px;
+    }
+}
