@@ -1,11 +1,12 @@
 /* =============================================
-   PARTNER COLLEGES SECTION - Auto-Scrolling
+   PARTNER COLLEGES SECTION - Enhanced with Marquee
    ============================================= */
 
 .section {
     padding: var(--section-padding-sm) 0;
     background: var(--neutral-50);
     overflow: hidden;
+    position: relative;
 }
 
 .container {
@@ -16,7 +17,7 @@
 
 .header {
     text-align: center;
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-12);
 }
 
 .eyebrow {
@@ -34,119 +35,191 @@
 
 .title {
     font-family: var(--font-display);
-    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
     font-weight: var(--font-bold);
     color: var(--neutral-900);
-    margin: 0;
-    line-height: 1.3;
+    margin: 0 0 var(--space-4) 0;
+    line-height: 1.2;
 }
 
-/* Auto-Scroll Container */
-.scrollWrapper {
-    overflow: hidden;
+.titleAccent {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: var(--text-lg);
+    color: var(--neutral-600);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Marquee Container */
+.marqueeContainer {
+    margin-bottom: var(--space-16);
     position: relative;
-    mask-image: linear-gradient(
-        to right,
-        transparent,
-        black 5%,
-        black 95%,
-        transparent
-    );
-    -webkit-mask-image: linear-gradient(
-        to right,
-        transparent,
-        black 5%,
-        black 95%,
-        transparent
-    );
 }
 
-.scrollContent {
-    display: flex;
-    gap: var(--space-4);
-    animation: scrollPartners 25s linear infinite;
-    width: fit-content;
+.marqueeContainer::before,
+.marqueeContainer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
 }
 
-.scrollContent:hover {
-    animation-play-state: paused;
+.marqueeContainer::before {
+    left: 0;
+    background: linear-gradient(to right, var(--neutral-50), transparent);
 }
 
-@keyframes scrollPartners {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
+.marqueeContainer::after {
+    right: 0;
+    background: linear-gradient(to left, var(--neutral-50), transparent);
 }
 
 /* College Card */
 .collegeCard {
     background: var(--white);
     border: 1px solid var(--neutral-200);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-    min-width: 200px;
-    max-width: 200px;
-    display: flex;
-    gap: var(--space-3);
-    align-items: center;
-    transition: all 0.3s ease;
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    min-width: 280px;
+    max-width: 280px;
+    margin: 0 var(--space-4);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
 }
 
 .collegeCard:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
     border-color: var(--primary-blue-light);
 }
 
 .collegeLogo {
-    width: 48px;
-    height: 48px;
+    margin-bottom: var(--space-4);
+}
+
+.logoPlaceholder {
+    width: 64px;
+    height: 64px;
     background: var(--gradient-primary);
     color: var(--white);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-display);
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
     font-weight: var(--font-bold);
-    flex-shrink: 0;
+    box-shadow: var(--shadow-blue);
 }
 
 .collegeInfo {
-    flex: 1;
-    min-width: 0;
+    text-align: left;
 }
 
 .collegeName {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--neutral-900);
+    margin-bottom: var(--space-3);
+    line-height: 1.3;
+}
+
+.collegeStats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-bottom: var(--space-2);
+}
+
+.studentCount {
     font-size: var(--text-sm);
     font-weight: var(--font-semibold);
-    color: var(--neutral-900);
-    margin-bottom: var(--space-1);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: var(--primary-blue);
+}
+
+.collegeType {
+    font-size: var(--text-xs);
+    color: var(--neutral-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .collegeLocation {
-    font-size: var(--text-xs);
-    color: var(--neutral-500);
+    font-size: var(--text-sm);
+    color: var(--neutral-600);
+    font-weight: var(--font-medium);
+}
+
+/* Trust Stats */
+.stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--neutral-200);
+}
+
+.stat {
+    text-align: center;
+}
+
+.statNumber {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: var(--font-bold);
+    color: var(--neutral-900);
+    margin-bottom: var(--space-1);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.statLabel {
+    font-size: var(--text-sm);
+    color: var(--neutral-600);
+    font-weight: var(--font-medium);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .collegeCard {
-        min-width: 180px;
-        max-width: 180px;
-        padding: var(--space-3);
+        min-width: 240px;
+        max-width: 240px;
+        padding: var(--space-4);
+        margin: 0 var(--space-3);
     }
     
-    .scrollContent {
-        gap: var(--space-3);
+    .logoPlaceholder {
+        width: 48px;
+        height: 48px;
+        font-size: var(--text-lg);
+    }
+    
+    .collegeName {
+        font-size: var(--text-base);
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: var(--space-6);
+    }
+    
+    .marqueeContainer::before,
+    .marqueeContainer::after {
+        width: 50px;
     }
 }
 
