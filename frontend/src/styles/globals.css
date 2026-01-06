@@ -130,9 +130,17 @@ select {
 }
 
 .section {
-    padding: var(--space-20) 0;
+    padding: var(--section-padding) 0;
     position: relative;
     overflow: hidden;
+}
+
+.section-sm {
+    padding: var(--section-padding-sm) 0;
+}
+
+.section-lg {
+    padding: var(--section-padding-lg) 0;
 }
 
 .section-dark {

@@ -12,6 +12,7 @@ import WhatIsUnivySection from '../components/home/WhatIsUnivySection';
 import WhoItsForSection from '../components/home/WhoItsForSection';
 import CoreModulesSection from '../components/home/CoreModulesSection';
 import WhyChooseUsSection from '../components/home/WhyChooseUsSection';
+import PartnerCollegesSection from '../components/home/PartnerCollegesSection';
 
 export default function Home() {
     return (
@@ -51,6 +52,9 @@ export default function Home() {
 
                 {/* Why Choose Us Section */}
                 <WhyChooseUsSection />
+
+                {/* Partner Colleges Section */}
+                <PartnerCollegesSection />
             </main>
 
             {/* Footer */}

@@ -5,33 +5,33 @@
 
 :root {
   /* ========================
-     PRIMARY COLORS
+     PRIMARY COLORS - Portfolio/Pitch Deck Friendly
      ======================== */
-  --primary-blue: #2563EB;
-  --primary-blue-light: #60A5FA;
-  --primary-blue-dark: #1E40AF;
+  --primary-blue: #0066FF;
+  --primary-blue-light: #3385FF;
+  --primary-blue-dark: #0052CC;
   
-  --secondary-purple: #8B5CF6;
-  --secondary-purple-light: #A78BFA;
-  --secondary-purple-dark: #7C3AED;
+  --secondary-indigo: #6366F1;
+  --secondary-indigo-light: #818CF8;
+  --secondary-indigo-dark: #4F46E5;
   
-  --accent-cyan: #06B6D4;
+  --accent-teal: #14B8A6;
   --accent-emerald: #10B981;
-  --accent-amber: #F59E0B;
+  --accent-orange: #F97316;
 
   /* ========================
-     GRADIENT COMBINATIONS
+     GRADIENT COMBINATIONS - Professional & Modern
      ======================== */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-hero: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #8B5CF6 100%);
-  --gradient-card: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  --gradient-primary: linear-gradient(135deg, #0066FF 0%, #6366F1 100%);
+  --gradient-hero: linear-gradient(135deg, #0A1929 0%, #1A2B3D 50%, #0A1929 100%);
+  --gradient-card: linear-gradient(135deg, rgba(0, 102, 255, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%);
   
-  --gradient-purple-blue: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
-  --gradient-blue-cyan: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
-  --gradient-emerald-cyan: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+  --gradient-accent: linear-gradient(135deg, #0066FF 0%, #14B8A6 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(0, 102, 255, 0.05) 0%, rgba(20, 184, 166, 0.05) 100%);
+  --gradient-emerald-teal: linear-gradient(135deg, #10B981 0%, #14B8A6 100%);
   
-  --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
 
   /* ========================
      NEUTRAL COLORS
@@ -91,20 +91,25 @@
   --leading-loose: 2;
 
   /* ========================
-     SPACING
+     SPACING - Compact Scale
      ======================== */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  
+  /* Compact section padding */
+  --section-padding: var(--space-16);
+  --section-padding-sm: var(--space-12);
+  --section-padding-lg: var(--space-20);
 
   /* ========================
      BORDER RADIUS
@@ -126,14 +131,14 @@
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
-  /* Colored Shadows (Premium Effect) */
-  --shadow-blue: 0 10px 40px -10px rgba(37, 99, 235, 0.3);
-  --shadow-purple: 0 10px 40px -10px rgba(139, 92, 246, 0.3);
-  --shadow-cyan: 0 10px 40px -10px rgba(6, 182, 212, 0.3);
+  /* Colored Shadows (Professional Effect) */
+  --shadow-blue: 0 8px 32px -8px rgba(0, 102, 255, 0.25);
+  --shadow-indigo: 0 8px 32px -8px rgba(99, 102, 241, 0.25);
+  --shadow-teal: 0 8px 32px -8px rgba(20, 184, 166, 0.25);
 
   /* Hover Shadows (More Intense) */
-  --shadow-blue-hover: 0 20px 40px -10px rgba(37, 99, 235, 0.5);
-  --shadow-purple-hover: 0 20px 40px -10px rgba(139, 92, 246, 0.5);
+  --shadow-blue-hover: 0 16px 48px -12px rgba(0, 102, 255, 0.4);
+  --shadow-indigo-hover: 0 16px 48px -12px rgba(99, 102, 241, 0.4);
 
   /* ========================
      GLASSMORPHISM

@@ -6,9 +6,9 @@
 .button {
     font-family: var(--font-accent);
     font-weight: var(--font-semibold);
-    font-size: var(--text-base);
-    padding: var(--space-4) var(--space-8);
-    border-radius: var(--radius-lg);
+    font-size: var(--text-sm);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
     border: none;
     cursor: pointer;
     display: inline-flex;
@@ -18,7 +18,7 @@
     text-decoration: none;
     position: relative;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     letter-spacing: 0.01em;
 }
 
@@ -45,20 +45,16 @@
    BUTTON VARIANTS
    ======================== */
 
-/* Primary - Premium Gradient */
+/* Primary - Professional Gradient */
 .primary {
-    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A855F7 100%);
+    background: var(--gradient-primary);
     color: var(--white);
-    box-shadow:
-        0 10px 30px -10px rgba(139, 92, 246, 0.5),
-        0 0 20px -8px rgba(99, 102, 241, 0.3);
+    box-shadow: var(--shadow-blue);
 }
 
 .primary:hover {
-    transform: translateY(-4px) scale(1.03);
-    box-shadow:
-        0 20px 40px -10px rgba(139, 92, 246, 0.6),
-        0 0 40px -10px rgba(99, 102, 241, 0.4);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-blue-hover);
 }
 
 .primary:active {
@@ -86,17 +82,15 @@
 .secondary {
     background: transparent;
     color: var(--primary-blue);
-    border: 2px solid rgba(99, 102, 241, 0.4);
+    border: 2px solid rgba(0, 102, 255, 0.3);
 }
 
 .secondary:hover {
-    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    background: var(--gradient-primary);
     color: var(--white);
     border-color: transparent;
-    transform: translateY(-4px);
-    box-shadow:
-        0 15px 35px -10px rgba(139, 92, 246, 0.4),
-        0 0 20px -8px rgba(99, 102, 241, 0.3);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-blue);
 }
 
 /* Ghost - Minimal with subtle interaction */
@@ -107,7 +101,7 @@
 }
 
 .ghost:hover {
-    background: rgba(139, 92, 246, 0.08);
+    background: var(--gradient-subtle);
     color: var(--primary-blue);
     transform: translateY(-2px);
 }
@@ -167,20 +161,20 @@
    ======================== */
 
 .small {
-    font-size: var(--text-sm);
-    padding: var(--space-2) var(--space-5);
-    border-radius: var(--radius-md);
+    font-size: var(--text-xs);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-sm);
 }
 
 .medium {
-    font-size: var(--text-base);
-    padding: var(--space-4) var(--space-8);
+    font-size: var(--text-sm);
+    padding: var(--space-3) var(--space-6);
 }
 
 .large {
-    font-size: var(--text-lg);
-    padding: var(--space-5) var(--space-12);
-    border-radius: var(--radius-xl);
+    font-size: var(--text-base);
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-lg);
 }
 
 /* ========================

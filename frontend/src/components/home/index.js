@@ -9,3 +9,4 @@ export { default as WhatIsUnivySection } from './WhatIsUnivySection';
 export { default as WhoItsForSection } from './WhoItsForSection';
 export { default as CoreModulesSection } from './CoreModulesSection';
 export { default as WhyChooseUsSection } from './WhyChooseUsSection';
+export { default as PartnerCollegesSection } from './PartnerCollegesSection';
