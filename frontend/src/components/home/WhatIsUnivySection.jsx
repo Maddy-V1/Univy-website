@@ -1,9 +1,11 @@
 /**
- * What Is Univy Section - Compact Modern
+ * What Is Univy Section - With Problem/Solution Carousel
  */
 
-import { FaCheck, FaArrowRight } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaCheck, FaArrowRight, FaExclamationTriangle, FaFileAlt, FaUsers, FaUnlink } from 'react-icons/fa';
 import Button from '../common/Button';
+import { PROBLEMS } from '../../utils/constants';
 import styles from './WhatIsUnivySection.module.css';
 
 const features = [
@@ -15,7 +17,33 @@ const features = [
     'No ads, no student payments - Pure B2B',
 ];
 
+const problemIconMap = {
+    chaos: FaExclamationTriangle,
+    manual: FaFileAlt,
+    struggles: FaUsers,
+    disconnected: FaUnlink,
+};
+
+const solutionItems = [
+    'Unified portal for all stakeholders',
+    'Digital attendance & academics',
+    'Official announcements channel',
+    'Student Cell tools & database',
+    'Forms & applications online',
+    'Analytics & admin controls',
+];
+
 const WhatIsUnivySection = () => {
+    const [showProblems, setShowProblems] = useState(true);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setShowProblems(prev => !prev);
+        }, 4000); // Switch every 4 seconds
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <section className={styles.section} id="what-is-univy">
             <div className={styles.container}>
@@ -61,27 +89,62 @@ const WhatIsUnivySection = () => {
                         </div>
                     </div>
 
-                    {/* Visual Card */}
+                    {/* Auto-Scrolling Problem/Solution Carousel */}
                     <div className={styles.visual}>
                         <div className={styles.visualCard}>
                             <div className={styles.visualCardBg} />
-                            <div className={styles.visualContent}>
-                                <h3 className={styles.visualTitle}>What Your Campus Gets</h3>
-                                <ul className={styles.visualList}>
-                                    {[
-                                        'Unified portal for all stakeholders',
-                                        'Digital attendance & academics',
-                                        'Official announcements channel',
-                                        'Student Cell tools & database',
-                                        'Forms & applications online',
-                                        'Analytics & admin controls',
-                                    ].map((item, idx) => (
-                                        <li key={idx} className={styles.visualListItem}>
-                                            <span className={styles.visualIcon}><FaCheck /></span>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
+                            
+                            {/* Problems View */}
+                            <div className={`${styles.carouselView} ${showProblems ? styles.active : styles.inactive}`}>
+                                <div className={styles.visualContent}>
+                                    <div className={styles.carouselHeader}>
+                                        <span className={styles.problemBadge}>Current Problems</span>
+                                        <h3 className={styles.visualTitle}>What Colleges Face Today</h3>
+                                    </div>
+                                    <ul className={styles.visualList}>
+                                        {PROBLEMS.map((problem, idx) => {
+                                            const IconComponent = problemIconMap[problem.icon] || FaExclamationTriangle;
+                                            return (
+                                                <li key={idx} className={styles.visualListItem}>
+                                                    <span className={`${styles.visualIcon} ${styles.problemIcon}`}>
+                                                        <IconComponent />
+                                                    </span>
+                                                    <div>
+                                                        <strong>{problem.title}</strong>
+                                                        <br />
+                                                        <span className={styles.problemDesc}>{problem.description}</span>
+                                                    </div>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {/* Solutions View */}
+                            <div className={`${styles.carouselView} ${!showProblems ? styles.active : styles.inactive}`}>
+                                <div className={styles.visualContent}>
+                                    <div className={styles.carouselHeader}>
+                                        <span className={styles.solutionBadge}>Our Solution</span>
+                                        <h3 className={styles.visualTitle}>What Your Campus Gets</h3>
+                                    </div>
+                                    <ul className={styles.visualList}>
+                                        {solutionItems.map((item, idx) => (
+                                            <li key={idx} className={styles.visualListItem}>
+                                                <span className={`${styles.visualIcon} ${styles.solutionIcon}`}>
+                                                    <FaCheck />
+                                                </span>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {/* Carousel Indicators */}
+                            <div className={styles.carouselIndicators}>
+                                <div className={`${styles.indicator} ${showProblems ? styles.indicatorActive : ''}`} />
+                                <div className={`${styles.indicator} ${!showProblems ? styles.indicatorActive : ''}`} />
                             </div>
                         </div>
                     </div>

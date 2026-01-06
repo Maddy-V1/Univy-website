@@ -7,7 +7,6 @@ import Head from 'next/head';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import HeroSection from '../components/home/HeroSection';
-import ProblemSection from '../components/home/ProblemSection';
 import WhatIsUnivySection from '../components/home/WhatIsUnivySection';
 import WhoItsForSection from '../components/home/WhoItsForSection';
 import CoreModulesSection from '../components/home/CoreModulesSection';
@@ -38,10 +37,39 @@ export default function Home() {
                 {/* Hero Section */}
                 <HeroSection />
 
-                {/* Problem Section */}
-                <ProblemSection />
+                {/* Problem Bar Section */}
+                <section className="problemBarSection">
+                    <div className="problemBarContainer">
+                        <div className="problemBar">
+                            <div className="problemBarContent">
+                                <span className="problemBarLabel">The Problem</span>
+                                <div className="problemBarItems">
+                                    <div>
+                                        <span className="problemBarItem">Manual Overload</span>
+                                        <span className="problemBarDot">•</span>
+                                        <span className="problemBarItem">Disconnected Systems</span>
+                                        <span className="problemBarDot">•</span>
+                                        <span className="problemBarItem">Communication Chaos</span>
+                                        <span className="problemBarDot">•</span>
+                                        <span className="problemBarItem">WhatsApp Dependency</span>
+                                        <span className="problemBarDot">•</span>
+                                        <span className="problemBarItem">Excel Sheet Mess</span>
+                                        <span className="problemBarDot">•</span>
+                                        <span className="problemBarItem">No Digital Records</span>
+                                        <span className="problemBarDot">•</span>
+                                        <span className="problemBarItem">Manual Overload</span>
+                                        <span className="problemBarDot">•</span>
+                                        <span className="problemBarItem">Disconnected Systems</span>
+                                        <span className="problemBarDot">•</span>
+                                        <span className="problemBarItem">Communication Chaos</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-                {/* What is Univy Section */}
+                {/* What is Univy Section with Problem/Solution Carousel */}
                 <WhatIsUnivySection />
 
                 {/* Who It's For Section */}

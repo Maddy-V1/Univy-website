@@ -374,6 +374,155 @@ select {
 }
 
 /* ========================
+   PROBLEM BAR SECTION
+   ======================== */
+.problemBarSection {
+    padding: var(--space-6) 0;
+    background: var(--white);
+    margin-bottom: 0;
+}
+
+.problemBarContainer {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+}
+
+.problemBar {
+    background: var(--neutral-950);
+    border-radius: var(--radius-full);
+    padding: var(--space-3) var(--space-6);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.problemBar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    animation: shimmer 4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+
+    0%,
+    100% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
+}
+
+.problemBarContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    color: var(--white);
+    width: 100%;
+    height: 100%;
+}
+
+.problemBarLabel {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--white);
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    height: 36px;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.problemBarItems {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    overflow: hidden;
+    flex: 1;
+    height: 100%;
+    mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%);
+}
+
+.problemBarItems>div {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    animation: scrollProblems 25s linear infinite;
+    white-space: nowrap;
+}
+
+.problemBarItem {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--white);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.problemBarDot {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: var(--font-bold);
+    flex-shrink: 0;
+}
+
+@keyframes scrollProblems {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Problem Bar Responsive */
+@media (max-width: 768px) {
+    .problemBarSection {
+        padding: var(--space-4) 0;
+    }
+
+    .problemBar {
+        padding: var(--space-2) var(--space-4);
+        height: 50px;
+    }
+
+    .problemBarLabel {
+        font-size: var(--text-xs);
+        padding: var(--space-1) var(--space-3);
+        height: 30px;
+    }
+
+    .problemBarItem {
+        font-size: var(--text-xs);
+    }
+}
+
+/* ========================
    UTILITY CLASSES
    ======================== */
 .text-center {

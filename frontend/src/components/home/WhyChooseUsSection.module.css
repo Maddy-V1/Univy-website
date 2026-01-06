@@ -167,6 +167,10 @@
 .cta {
     text-align: center;
     margin-top: var(--space-10);
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 /* Responsive */

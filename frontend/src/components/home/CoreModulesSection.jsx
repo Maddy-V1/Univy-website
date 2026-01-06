@@ -25,7 +25,7 @@ const CoreModulesSection = () => {
     const displayedServices = SERVICES.slice(0, 6);
 
     return (
-        <section className={styles.section} id="modules">
+        <section className={styles.section} id="core-modules">
             <div className={styles.container}>
                 <div className={styles.header}>
                     <span className={styles.eyebrow}>Core Modules</span>
