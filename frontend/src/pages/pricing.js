@@ -210,20 +210,11 @@ export default function Pricing() {
             <main>
                 {/* Hero */}
                 <PageHero
-                    size="medium"
+                    size="small"
                     subtitle="Pricing"
-                    title="Flexible Plans For Every College"
-                    description="From basic digitization to complete campus management. Pick a plan or build your own."
-                >
-                    <Button
-                        href="/contact"
-                        variant="primary"
-                        size="medium"
-                        rightIcon={<FaArrowRight />}
-                    >
-                        Get Custom Quote
-                    </Button>
-                </PageHero>
+                    title="Plans For Every College"
+                    description="From basic digitization to complete campus management. Pick what works for you."
+                />
 
                 {/* Pricing Cards */}
                 <section style={pageStyles.section}>

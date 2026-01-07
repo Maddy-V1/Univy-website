@@ -4,7 +4,7 @@
  */
 
 import Head from 'next/head';
-import { FaHeart, FaRocket, FaUsers, FaLightbulb } from 'react-icons/fa';
+import { FaHeart, FaBullseye } from 'react-icons/fa';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import PageHero from '../components/common/PageHero';
@@ -106,24 +106,31 @@ const pageStyles = {
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         fontSize: 'var(--text-sm)',
     },
-    valuesGrid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: 'var(--space-6)',
-    },
-    valueCard: {
+    visionCard: {
+        maxWidth: '750px',
+        margin: '0 auto',
         background: 'var(--white)',
         borderRadius: 'var(--radius-xl)',
-        padding: 'var(--space-6)',
-        border: '1px solid var(--neutral-200)',
+        padding: 'var(--space-8)',
+        boxShadow: 'var(--shadow-lg)',
         textAlign: 'center',
-        transition: 'all var(--transition-slow)',
+        position: 'relative',
+        overflow: 'hidden',
+        border: '1px solid var(--neutral-200)',
     },
-    valueIcon: {
+    visionCardBg: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '3px',
+        background: 'var(--gradient-primary)',
+    },
+    visionIcon: {
         width: '56px',
         height: '56px',
         background: 'var(--gradient-primary)',
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -132,61 +139,27 @@ const pageStyles = {
         margin: '0 auto var(--space-4)',
         boxShadow: 'var(--shadow-purple)',
     },
-    valueTitle: {
+    visionTitle: {
         fontFamily: 'var(--font-display)',
-        fontSize: 'var(--text-lg)',
+        fontSize: 'var(--text-xl)',
         fontWeight: 'var(--font-bold)',
         color: 'var(--neutral-900)',
-        marginBottom: 'var(--space-2)',
+        marginBottom: 'var(--space-3)',
     },
-    valueDescription: {
-        fontSize: 'var(--text-sm)',
+    visionText: {
+        fontSize: 'var(--text-base)',
         color: 'var(--neutral-600)',
         lineHeight: 'var(--leading-relaxed)',
-        margin: 0,
+        maxWidth: '550px',
+        margin: '0 auto',
     },
     cta: {
-        marginTop: 'var(--space-16)',
+        marginTop: 'var(--space-12)',
         textAlign: 'center',
     },
 };
 
-const values = [
-    {
-        icon: FaHeart,
-        title: 'Student-First',
-        description: 'Everything we build is designed with students in mind. Their experience matters most.',
-    },
-    {
-        icon: FaRocket,
-        title: 'Move Fast',
-        description: 'We believe in rapid iteration and quick turnarounds. Your time is valuable.',
-    },
-    {
-        icon: FaUsers,
-        title: 'Collaboration',
-        description: 'We work with colleges, not just for them. Your input shapes our product.',
-    },
-    {
-        icon: FaLightbulb,
-        title: 'Innovation',
-        description: 'Constantly improving and adding features that make campus life better.',
-    },
-];
-
 export default function Team() {
-    const handleValueHover = (e, isEnter) => {
-        if (isEnter) {
-            e.currentTarget.style.transform = 'translateY(-8px)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
-            e.currentTarget.style.borderColor = 'var(--primary-blue-light)';
-        } else {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'none';
-            e.currentTarget.style.borderColor = 'var(--neutral-200)';
-        }
-    };
-
     return (
         <>
             <Head>
@@ -202,9 +175,10 @@ export default function Team() {
             <main>
                 {/* Hero */}
                 <PageHero
+                    size="small"
+                    subtitle="Our Team"
                     title="The People Behind Univy"
                     description="Students building for students, backed by a passion for transforming campus life."
-                    size="medium"
                 />
 
                 {/* Team Members */}
@@ -281,32 +255,20 @@ export default function Team() {
                     </div>
                 </section>
 
-                {/* Values */}
+                {/* Vision */}
                 <section style={pageStyles.section}>
                     <div style={pageStyles.container}>
-                        <div style={pageStyles.sectionHeader}>
-                            <span style={pageStyles.sectionEyebrow}>Our Values</span>
-                            <h2 style={pageStyles.sectionTitle}>What Drives Us</h2>
-                        </div>
-
-                        <div style={pageStyles.valuesGrid}>
-                            {values.map((value, index) => {
-                                const IconComponent = value.icon;
-                                return (
-                                    <div
-                                        key={index}
-                                        style={pageStyles.valueCard}
-                                        onMouseEnter={(e) => handleValueHover(e, true)}
-                                        onMouseLeave={(e) => handleValueHover(e, false)}
-                                    >
-                                        <div style={pageStyles.valueIcon}>
-                                            <IconComponent />
-                                        </div>
-                                        <h3 style={pageStyles.valueTitle}>{value.title}</h3>
-                                        <p style={pageStyles.valueDescription}>{value.description}</p>
-                                    </div>
-                                );
-                            })}
+                        <div style={pageStyles.visionCard}>
+                            <div style={pageStyles.visionCardBg} />
+                            <div style={pageStyles.visionIcon}>
+                                <FaBullseye />
+                            </div>
+                            <h2 style={pageStyles.visionTitle}>Our Vision</h2>
+                            <p style={pageStyles.visionText}>
+                                To become the standard digital workspace for every college in India — a platform that
+                                students, faculty, and administrators rely on daily. We envision a future where campus
+                                communication is seamless and every stakeholder has the tools they need to succeed.
+                            </p>
                         </div>
 
                         {/* CTA */}

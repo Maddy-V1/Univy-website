@@ -96,24 +96,27 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Quick Links */}
-                    <div className={styles.linksCol}>
-                        <h4 className={styles.colTitle}>Quick Links</h4>
-                        {quickLinks.map((link) => (
-                            <Link key={link.href} href={link.href} className={styles.footerLink}>
-                                {link.label}
-                            </Link>
-                        ))}
-                    </div>
+                    {/* Quick Links and Services Row */}
+                    <div className={styles.linksRow}>
+                        {/* Quick Links */}
+                        <div className={styles.linksCol}>
+                            <h4 className={styles.colTitle}>Quick Links</h4>
+                            {quickLinks.map((link) => (
+                                <Link key={link.href} href={link.href} className={styles.footerLink}>
+                                    {link.label}
+                                </Link>
+                            ))}
+                        </div>
 
-                    {/* Services */}
-                    <div className={styles.linksCol}>
-                        <h4 className={styles.colTitle}>Services</h4>
-                        {serviceLinks.map((link) => (
-                            <Link key={link.href} href={link.href} className={styles.footerLink}>
-                                {link.label}
-                            </Link>
-                        ))}
+                        {/* Services */}
+                        <div className={styles.linksCol}>
+                            <h4 className={styles.colTitle}>Services</h4>
+                            {serviceLinks.map((link) => (
+                                <Link key={link.href} href={link.href} className={styles.footerLink}>
+                                    {link.label}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
 
                     {/* Contact Info */}

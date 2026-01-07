@@ -51,16 +51,6 @@ export const TEAM_MEMBERS = [
     },
     {
         id: 4,
-        name: 'Parth Agarwal',
-        role: 'Business Development & Marketing',
-        image: '/images/team/parth.jpg',
-        bio: 'Managing outreach, pitch decks, and college partnerships. Building Univy\'s brand presence.',
-        linkedin: '', // TODO: Add LinkedIn URL
-        email: 'parth@univy.com',
-        initials: 'PA',
-    },
-    {
-        id: 5,
         name: 'Krishna Sharma',
         role: 'Pricing Strategy & University Relations',
         image: '/images/team/krishna.jpg',
@@ -80,7 +70,6 @@ export const NAV_LINKS = [
     { label: 'Pricing', href: '/pricing' },
     { label: 'How It Works', href: '/how-it-works' },
     { label: 'Team', href: '/team' },
-    { label: 'Vision', href: '/vision' },
 ];
 
 // ========================

@@ -198,7 +198,7 @@ export default function HowItWorks() {
                 <PageHero
                     title="From Contact to Campus Transformation"
                     description="A simple, proven process to bring your college onto Univy."
-                    size="medium"
+                    size="small"
                 />
 
                 {/* Timeline Section */}

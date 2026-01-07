@@ -96,7 +96,8 @@
 
 @media (max-width: 768px) {
     .grid {
-        display: none; /* Hide desktop grid on mobile */
+        display: none;
+        /* Hide desktop grid on mobile */
     }
 }
 
@@ -211,6 +212,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -224,7 +226,7 @@
     scroll-behavior: smooth;
     padding: var(--space-4) 0;
     margin-bottom: var(--space-6);
-    
+
     /* Hide scrollbar */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -237,9 +239,10 @@
 @media (max-width: 768px) {
     .mobileCarousel {
         display: flex;
-        gap: 12px; /* 0.75rem gap to match JS calculation */
-        padding-left: calc(50vw - 110px - 6px); /* Center the active card with smaller size */
-        padding-right: calc(50vw - 110px - 6px);
+        gap: 16px;
+        /* Padding to allow first/last cards to be centered: (viewport/2 - cardWidth/2) */
+        padding-left: calc(50vw - 110px);
+        padding-right: calc(50vw - 110px);
     }
 }
 
@@ -344,10 +347,11 @@
     white-space: nowrap;
 }
 
-/* Dots Navigation */
+/* New 3-Dot Navigation with Loading Animation */
 .dotsContainer {
     display: none;
     justify-content: center;
+    align-items: center;
     gap: var(--space-2);
     margin-bottom: var(--space-8);
 }
@@ -355,18 +359,20 @@
 @media (max-width: 768px) {
     .dotsContainer {
         display: flex;
+        /* Show new 3-dot system on mobile */
     }
 }
 
 .dot {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     border: none;
     background: rgba(255, 255, 255, 0.3);
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;
+    position: relative;
 }
 
 .dot:hover {
@@ -374,13 +380,41 @@
     transform: scale(1.1);
 }
 
+/* Active dot - oval with loading animation */
 .activeDot {
-    background: var(--primary-blue);
-    transform: scale(1.2);
+    width: 24px;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    position: relative;
+}
+
+.activeDot::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 3px;
+    animation: loadingProgress 3s linear infinite;
+}
+
+@keyframes loadingProgress {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
 }
 
 .activeDot:hover {
-    background: var(--primary-blue);
+    background: rgba(255, 255, 255, 0.2);
+    transform: none;
 }
 
 /* Responsive */

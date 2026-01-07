@@ -3,10 +3,10 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { 
-    FaUserGraduate, 
-    FaChalkboardTeacher, 
-    FaUsers, 
+import {
+    FaUserGraduate,
+    FaChalkboardTeacher,
+    FaUsers,
     FaUserTie,
     FaBell,
     FaCertificate,
@@ -71,16 +71,19 @@ const WhoItsForSection = () => {
         const checkMobile = () => {
             const mobile = window.innerWidth <= 768;
             setIsMobile(mobile);
-            
-            // Set initial scroll position for infinite carousel
+
+            // Set initial scroll position for infinite carousel - center the card
+            // With CSS padding of (50vw - cardWidth/2), first card is centered at scrollLeft=0
+            // Each card needs to scroll by index * cardTotalWidth
             if (mobile && carouselRef.current) {
                 const cardWidth = 220;
-                const gap = 12;
-                const initialPosition = currentIndex * (cardWidth + gap);
-                carouselRef.current.scrollLeft = initialPosition;
+                const gap = 16;
+                const cardTotalWidth = cardWidth + gap;
+                const scrollPosition = currentIndex * cardTotalWidth;
+                carouselRef.current.scrollLeft = scrollPosition;
             }
         };
-        
+
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
@@ -103,8 +106,10 @@ const WhoItsForSection = () => {
                                 carouselRef.current.style.scrollBehavior = 'auto';
                                 setCurrentIndex(totalOriginalCards);
                                 const cardWidth = 220;
-                                const gap = 12;
-                                carouselRef.current.scrollLeft = totalOriginalCards * (cardWidth + gap);
+                                const gap = 16;
+                                const cardTotalWidth = cardWidth + gap;
+                                const scrollPosition = totalOriginalCards * cardTotalWidth;
+                                carouselRef.current.scrollLeft = scrollPosition;
                                 setTimeout(() => {
                                     if (carouselRef.current) {
                                         carouselRef.current.style.scrollBehavior = 'smooth';
@@ -125,13 +130,16 @@ const WhoItsForSection = () => {
         return () => clearInterval(interval);
     }, [isPaused, isMobile, totalOriginalCards]);
 
-    // Handle scroll positioning
+    // Handle scroll positioning - center the card in viewport
+    // With CSS padding of (50vw - cardWidth/2), first card is centered at scrollLeft=0
     useEffect(() => {
         if (!isMobile || !carouselRef.current) return;
 
         const cardWidth = 220;
-        const gap = 12;
-        const scrollPosition = currentIndex * (cardWidth + gap);
+        const gap = 16;
+        const cardTotalWidth = cardWidth + gap;
+        // Each card needs to scroll by index * cardTotalWidth
+        const scrollPosition = currentIndex * cardTotalWidth;
 
         carouselRef.current.scrollTo({
             left: scrollPosition,
@@ -175,7 +183,7 @@ const WhoItsForSection = () => {
             {/* Background Elements */}
             <div className={`${styles.footerBg} ${styles.footerBgPurple}`} />
             <div className={`${styles.footerBg} ${styles.footerBgBlue}`} />
-            
+
             <div className={styles.container}>
                 <div className={styles.header}>
                     <span className={styles.eyebrow}>Built For Everyone</span>
@@ -188,7 +196,7 @@ const WhoItsForSection = () => {
                 {/* Desktop Grid / Mobile Carousel */}
                 {isMobile ? (
                     <>
-                        <div 
+                        <div
                             className={styles.mobileCarousel}
                             ref={carouselRef}
                             onTouchStart={handleTouchStart}
@@ -197,13 +205,13 @@ const WhoItsForSection = () => {
                             {infiniteUserTypes.map((user, index) => {
                                 const IconComponent = user.icon;
                                 const realIndex = index % totalOriginalCards;
-                                const isActive = realIndex === activeIndex && 
-                                    index >= totalOriginalCards && 
+                                const isActive = realIndex === activeIndex &&
+                                    index >= totalOriginalCards &&
                                     index < totalOriginalCards * 2;
 
                                 return (
-                                    <div 
-                                        key={`${user.title}-${index}`} 
+                                    <div
+                                        key={`${user.title}-${index}`}
                                         className={`${styles.mobileCard} ${isActive ? styles.active : ''}`}
                                     >
                                         <div className={styles.cardIcon}>
@@ -224,7 +232,7 @@ const WhoItsForSection = () => {
                                 );
                             })}
                         </div>
-                        
+
                         {/* Dots Navigation */}
                         <div className={styles.dotsContainer}>
                             {userTypes.map((_, index) => (
@@ -244,9 +252,9 @@ const WhoItsForSection = () => {
                             const isActive = index === activeIndex;
 
                             return (
-                                <div 
-                                    key={index} 
-                                    className={`${styles.card} ${isActive ? styles.active : ''}`} 
+                                <div
+                                    key={index}
+                                    className={`${styles.card} ${isActive ? styles.active : ''}`}
                                     style={{ '--delay': `${index * 0.1}s` }}
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}

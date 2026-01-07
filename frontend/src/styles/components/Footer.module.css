@@ -61,6 +61,13 @@
     margin-bottom: var(--space-12);
 }
 
+/* Links Row - for Quick Links and Services on mobile */
+.linksRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+}
+
 /* Brand Column */
 .brandCol {
     max-width: 320px;
@@ -250,6 +257,11 @@
         flex-direction: row;
         justify-content: space-between;
         text-align: left;
+    }
+
+    /* On tablet and up, break out of linksRow and use normal grid */
+    .linksRow {
+        display: contents;
     }
 }
 

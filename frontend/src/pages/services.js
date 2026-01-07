@@ -844,20 +844,11 @@ export default function Services() {
             <main>
                 {/* Hero */}
                 <PageHero
-                    size="medium"
+                    size="small"
                     subtitle="Our Services"
                     title="Digital Campus Solutions"
-                    description="Modular solutions designed for modern college management. Pick what you need, scale as you grow."
-                >
-                    <Button
-                        href="/contact"
-                        variant="primary"
-                        size="medium"
-                        rightIcon={<FaArrowRight />}
-                    >
-                        Get Started
-                    </Button>
-                </PageHero>
+                    description="Modular solutions for modern college management. Pick what you need, scale as you grow."
+                />
 
                 {/* Mobile View - Instagram-style Carousel for All Categories */}
                 {isMobile && (
