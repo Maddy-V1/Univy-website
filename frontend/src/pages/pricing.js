@@ -8,6 +8,7 @@ import { FaArrowRight, FaQuestionCircle } from 'react-icons/fa';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import Button from '../components/common/Button';
+import PageHero from '../components/common/PageHero';
 import PricingCard from '../components/pricing/PricingCard';
 import { PRICING_PLANS } from '../utils/constants';
 
@@ -208,15 +209,21 @@ export default function Pricing() {
 
             <main>
                 {/* Hero */}
-                <section style={pageStyles.hero}>
-                    <div style={pageStyles.heroOrbs} />
-                    <div style={pageStyles.container}>
-                        <h1 style={pageStyles.heroTitle}>Flexible Plans For Every College</h1>
-                        <p style={pageStyles.heroSubtitle}>
-                            From basic digitization to complete campus management. Pick a plan or build your own.
-                        </p>
-                    </div>
-                </section>
+                <PageHero
+                    size="medium"
+                    subtitle="Pricing"
+                    title="Flexible Plans For Every College"
+                    description="From basic digitization to complete campus management. Pick a plan or build your own."
+                >
+                    <Button
+                        href="/contact"
+                        variant="primary"
+                        size="medium"
+                        rightIcon={<FaArrowRight />}
+                    >
+                        Get Custom Quote
+                    </Button>
+                </PageHero>
 
                 {/* Pricing Cards */}
                 <section style={pageStyles.section}>

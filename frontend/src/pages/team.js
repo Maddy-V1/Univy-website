@@ -7,56 +7,23 @@ import Head from 'next/head';
 import { FaHeart, FaRocket, FaUsers, FaLightbulb } from 'react-icons/fa';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
+import PageHero from '../components/common/PageHero';
 import TeamMember from '../components/team/TeamMember';
 import Button from '../components/common/Button';
 import { TEAM_MEMBERS } from '../utils/constants';
 
 const pageStyles = {
-    hero: {
-        background: 'var(--gradient-hero)',
-        padding: 'var(--space-24) 0 var(--space-16)',
-        paddingTop: '140px',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-    },
-    heroOrbs: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        background: `
-      radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.3) 0%, transparent 50%)
-    `,
-    },
-    container: {
-        maxWidth: 'var(--container-xl)',
-        margin: '0 auto',
-        padding: '0 var(--space-6)',
-        position: 'relative',
-        zIndex: 10,
-    },
-    heroTitle: {
-        fontFamily: 'var(--font-display)',
-        fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-        fontWeight: 'var(--font-extrabold)',
-        color: 'var(--white)',
-        marginBottom: 'var(--space-4)',
-    },
-    heroSubtitle: {
-        fontSize: 'var(--text-lg)',
-        color: 'rgba(255, 255, 255, 0.8)',
-        maxWidth: '600px',
-        margin: '0 auto',
-    },
     section: {
         padding: 'var(--space-20) 0',
         background: 'var(--neutral-50)',
     },
     sectionAlt: {
         background: 'var(--white)',
+    },
+    container: {
+        maxWidth: 'var(--container-xl)',
+        margin: '0 auto',
+        padding: '0 var(--space-6)',
     },
     sectionHeader: {
         textAlign: 'center',
@@ -234,15 +201,11 @@ export default function Team() {
 
             <main>
                 {/* Hero */}
-                <section style={pageStyles.hero}>
-                    <div style={pageStyles.heroOrbs} />
-                    <div style={pageStyles.container}>
-                        <h1 style={pageStyles.heroTitle}>The People Behind Univy</h1>
-                        <p style={pageStyles.heroSubtitle}>
-                            Students building for students, backed by a passion for transforming campus life.
-                        </p>
-                    </div>
-                </section>
+                <PageHero
+                    title="The People Behind Univy"
+                    description="Students building for students, backed by a passion for transforming campus life."
+                    size="medium"
+                />
 
                 {/* Team Members */}
                 <section style={pageStyles.section}>

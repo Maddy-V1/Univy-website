@@ -7,53 +7,20 @@ import Head from 'next/head';
 import { FaCheck, FaArrowRight } from 'react-icons/fa';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
+import PageHero from '../components/common/PageHero';
 import Button from '../components/common/Button';
 import { HOW_IT_WORKS_STEPS } from '../utils/constants';
 
 const pageStyles = {
-    hero: {
-        background: 'var(--gradient-hero)',
-        padding: 'var(--space-24) 0 var(--space-16)',
-        paddingTop: '140px',
-        textAlign: 'center',
+    section: {
+        padding: 'var(--space-20) 0',
+        background: 'var(--neutral-50)',
         position: 'relative',
-        overflow: 'hidden',
-    },
-    heroOrbs: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        background: `
-      radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.3) 0%, transparent 50%)
-    `,
     },
     container: {
         maxWidth: 'var(--container-xl)',
         margin: '0 auto',
         padding: '0 var(--space-6)',
-        position: 'relative',
-        zIndex: 10,
-    },
-    heroTitle: {
-        fontFamily: 'var(--font-display)',
-        fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-        fontWeight: 'var(--font-extrabold)',
-        color: 'var(--white)',
-        marginBottom: 'var(--space-4)',
-    },
-    heroSubtitle: {
-        fontSize: 'var(--text-lg)',
-        color: 'rgba(255, 255, 255, 0.8)',
-        maxWidth: '600px',
-        margin: '0 auto',
-    },
-    section: {
-        padding: 'var(--space-20) 0',
-        background: 'var(--neutral-50)',
-        position: 'relative',
     },
     timeline: {
         position: 'relative',
@@ -228,15 +195,11 @@ export default function HowItWorks() {
 
             <main>
                 {/* Hero */}
-                <section style={pageStyles.hero}>
-                    <div style={pageStyles.heroOrbs} />
-                    <div style={pageStyles.container}>
-                        <h1 style={pageStyles.heroTitle}>From Contact to Campus Transformation</h1>
-                        <p style={pageStyles.heroSubtitle}>
-                            A simple, proven process to bring your college onto Univy.
-                        </p>
-                    </div>
-                </section>
+                <PageHero
+                    title="From Contact to Campus Transformation"
+                    description="A simple, proven process to bring your college onto Univy."
+                    size="medium"
+                />
 
                 {/* Timeline Section */}
                 <section style={pageStyles.section}>

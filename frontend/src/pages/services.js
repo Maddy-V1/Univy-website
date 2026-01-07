@@ -10,6 +10,7 @@ import { FaDesktop, FaFileAlt, FaCalendarCheck, FaUsers, FaLightbulb, FaEnvelope
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import Button from '../components/common/Button';
+import PageHero from '../components/common/PageHero';
 import { SERVICES } from '../utils/constants';
 
 const pageStyles = {
@@ -842,15 +843,21 @@ export default function Services() {
 
             <main>
                 {/* Hero */}
-                <section style={pageStyles.hero}>
-                    <div style={pageStyles.heroOrbs} />
-                    <div style={pageStyles.container}>
-                        <h1 style={pageStyles.heroTitle}>Digital Campus Solutions</h1>
-                        <p style={pageStyles.heroSubtitle}>
-                            Modular solutions designed for modern college management. Pick what you need, scale as you grow.
-                        </p>
-                    </div>
-                </section>
+                <PageHero
+                    size="medium"
+                    subtitle="Our Services"
+                    title="Digital Campus Solutions"
+                    description="Modular solutions designed for modern college management. Pick what you need, scale as you grow."
+                >
+                    <Button
+                        href="/contact"
+                        variant="primary"
+                        size="medium"
+                        rightIcon={<FaArrowRight />}
+                    >
+                        Get Started
+                    </Button>
+                </PageHero>
 
                 {/* Mobile View - Instagram-style Carousel for All Categories */}
                 {isMobile && (

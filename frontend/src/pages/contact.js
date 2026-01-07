@@ -7,6 +7,7 @@ import Head from 'next/head';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaClock } from 'react-icons/fa';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
+import PageHero from '../components/common/PageHero';
 import ContactForm from '../components/contact/ContactForm';
 import { CONTACT_INFO } from '../utils/constants';
 
@@ -196,15 +197,12 @@ export default function Contact() {
 
             <main>
                 {/* Hero */}
-                <section style={pageStyles.hero}>
-                    <div style={pageStyles.heroOrbs} />
-                    <div style={pageStyles.container}>
-                        <h1 style={pageStyles.heroTitle}>Let's Talk</h1>
-                        <p style={pageStyles.heroSubtitle}>
-                            Ready to transform your campus? Request a demo, ask questions, or just say hello.
-                        </p>
-                    </div>
-                </section>
+                <PageHero
+                    size="small"
+                    subtitle="Get In Touch"
+                    title="Let's Talk"
+                    description="Ready to transform your campus? Request a demo, ask questions, or just say hello."
+                />
 
                 {/* Contact Section */}
                 <section style={pageStyles.section}>
