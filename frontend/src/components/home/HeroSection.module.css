@@ -9,16 +9,26 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: linear-gradient(180deg,
-            #0A1628 0%,
-            #0F1D32 30%,
-            #0C1829 60%,
-            #0A1628 100%);
+    background: var(--neutral-950);
     padding-top: 40px;
 }
 
 /* ========================
-   BACKGROUND LAYER
+   INTERACTIVE CANVAS BACKGROUND
+   ======================== */
+.interactiveCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* ========================
+   BACKGROUND LAYER - Footer Theme
    ======================== */
 .heroBg {
     position: absolute;
@@ -30,6 +40,17 @@
     overflow: hidden;
 }
 
+/* Footer-style background elements */
+.heroBg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--secondary-purple), var(--primary-blue), transparent);
+}
+
 /* Subtle Grid Pattern */
 .gridPattern {
     position: absolute;
@@ -38,15 +59,14 @@
     width: 100%;
     height: 100%;
     background-image:
-        linear-gradient(rgba(96, 165, 250, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(96, 165, 250, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     background-size: 60px 60px;
-    opacity: 0.8;
+    opacity: 0.5;
 }
 
 /* ========================
-   FLOATING UI PANELS
-   Stacked Like Images on Wall
+   FLOATING UI PANELS - Footer Theme
    ======================== */
 .panelsContainer {
     position: absolute;
@@ -58,17 +78,17 @@
 
 .abstractPanel {
     position: absolute;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 16px;
-    opacity: 0.6;
+    opacity: 0.4;
     transition: all 0.6s ease;
 }
 
 .abstractPanel:hover {
-    opacity: 0.8;
+    opacity: 0.6;
     transform: scale(1.02);
 }
 
@@ -139,11 +159,11 @@
     }
 }
 
-/* Panel Inner Elements */
+/* Panel Inner Elements - Footer Theme */
 .panelHeader {
     width: 50%;
     height: 8px;
-    background: rgba(96, 165, 250, 0.3);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     margin-bottom: 12px;
 }
@@ -156,7 +176,7 @@
 
 .panelLines span {
     height: 4px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 2px;
 }
 
@@ -182,19 +202,21 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(20, 184, 166, 0.4);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .panelDots span:nth-child(1) {
-    background: rgba(239, 68, 68, 0.4);
+    background: var(--secondary-purple);
+    opacity: 0.6;
 }
 
 .panelDots span:nth-child(2) {
-    background: rgba(250, 204, 21, 0.4);
+    background: var(--primary-blue);
+    opacity: 0.6;
 }
 
 .panelDots span:nth-child(3) {
-    background: rgba(34, 197, 94, 0.4);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .panelGrid {
@@ -399,7 +421,7 @@
    ======================== */
 .container {
     position: relative;
-    z-index: 10;
+    z-index: 20;
     max-width: var(--container-xl);
     margin: 0 auto;
     padding: 0 var(--space-6);
@@ -479,7 +501,7 @@
 }
 
 .headlineAccent {
-    background: linear-gradient(135deg, #60A5FA 0%, #14B8A6 50%, #34D399 100%);
+    background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 25%, #2563EB 50%, #1E40AF 75%, #1E3A8A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -554,45 +576,33 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     animation: fadeIn 1s ease-out 1s both;
-    z-index: 10;
+    z-index: 20;
 }
 
 .scrollText {
     font-weight: var(--font-medium);
 }
 
-.scrollDot {
+.scrollArrow {
     width: 24px;
-    height: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-full);
-    position: relative;
+    height: 24px;
+    color: rgba(255, 255, 255, 0.5);
+    animation: stretchArrow 2s ease-in-out infinite;
 }
 
-.scrollDot::after {
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: var(--radius-full);
-    animation: scrollBounce 2s ease-in-out infinite;
+.scrollArrow svg {
+    width: 100%;
+    height: 100%;
 }
 
-@keyframes scrollBounce {
-
-    0%,
-    100% {
-        transform: translateX(-50%) translateY(0);
+@keyframes stretchArrow {
+    0%, 100% {
+        transform: scaleY(1);
         opacity: 1;
     }
-
     50% {
-        transform: translateX(-50%) translateY(10px);
-        opacity: 0.3;
+        transform: scaleY(1.3);
+        opacity: 0.7;
     }
 }
 

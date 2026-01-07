@@ -49,9 +49,6 @@ const WhyChooseUsSection = () => {
                 </div>
 
                 <div className={styles.cta}>
-                    <Button href="/services" variant="secondary" size="medium">
-                        Explore Services
-                    </Button>
                     <Button href="/contact" variant="primary" size="medium">
                         Get Started Today
                     </Button>
