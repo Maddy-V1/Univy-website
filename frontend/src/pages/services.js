@@ -1,10 +1,12 @@
 /**
  * Services Page
- * Complete list of services/modules with details
+ * Complete list of services/modules with hover-based expansion for desktop
+ * Instagram-style swipeable cards for mobile
  */
 
 import Head from 'next/head';
-import { FaDesktop, FaFileAlt, FaCalendarCheck, FaUsers, FaLightbulb, FaEnvelope, FaUserShield, FaChartBar, FaArrowRight } from 'react-icons/fa';
+import { useState, useEffect, useRef } from 'react';
+import { FaDesktop, FaFileAlt, FaCalendarCheck, FaUsers, FaLightbulb, FaEnvelope, FaUserShield, FaChartBar, FaArrowRight, FaCheck, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import Button from '../components/common/Button';
@@ -54,22 +56,61 @@ const pageStyles = {
         padding: 'var(--space-20) 0',
         background: 'var(--neutral-50)',
     },
-    sectionAlt: {
-        background: 'var(--white)',
+    
+    // Desktop Styles
+    categorySection: {
+        marginBottom: 'var(--space-16)',
+    },
+    categoryTitle: {
+        fontFamily: 'var(--font-display)',
+        fontSize: 'var(--text-2xl)',
+        fontWeight: 'var(--font-bold)',
+        color: 'var(--neutral-900)',
+        marginBottom: 'var(--space-8)',
+        textAlign: 'center',
+        position: 'relative',
+    },
+    categoryTitleUnderline: {
+        position: 'absolute',
+        bottom: '-8px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '60px',
+        height: '3px',
+        background: 'var(--gradient-primary)',
+        borderRadius: '2px',
     },
     servicesGrid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
         gap: 'var(--space-8)',
     },
     serviceCard: {
         background: 'var(--white)',
         borderRadius: 'var(--radius-2xl)',
-        padding: 'var(--space-8)',
+        padding: 'var(--space-6)',
         border: '1px solid var(--neutral-200)',
-        transition: 'all var(--transition-slow)',
         position: 'relative',
         overflow: 'hidden',
+        cursor: 'pointer',
+        height: 'auto',
+        minHeight: '280px',
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+    },
+    serviceCardHovered: {
+        background: 'var(--white)',
+        borderRadius: 'var(--radius-2xl)',
+        padding: 'var(--space-6)',
+        border: '1px solid var(--primary-blue-light)',
+        position: 'relative',
+        overflow: 'hidden',
+        cursor: 'pointer',
+        height: 'auto',
+        minHeight: '280px',
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+        transform: 'translateY(-8px)',
     },
     serviceCardTopBar: {
         position: 'absolute',
@@ -81,25 +122,41 @@ const pageStyles = {
         transform: 'scaleX(0)',
         transition: 'transform 0.5s ease',
     },
+    serviceCardTopBarHovered: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '4px',
+        background: 'var(--gradient-primary)',
+        transform: 'scaleX(1)',
+        transition: 'transform 0.5s ease',
+    },
     serviceIcon: {
-        width: '64px',
-        height: '64px',
+        width: '56px',
+        height: '56px',
         background: 'var(--gradient-primary)',
         borderRadius: 'var(--radius-lg)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '1.75rem',
+        fontSize: '1.5rem',
         color: 'var(--white)',
-        marginBottom: 'var(--space-6)',
+        marginBottom: 'var(--space-4)',
         boxShadow: 'var(--shadow-purple)',
+    },
+    serviceHeader: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: 'var(--space-3)',
     },
     serviceTitle: {
         fontFamily: 'var(--font-display)',
         fontSize: 'var(--text-xl)',
         fontWeight: 'var(--font-bold)',
         color: 'var(--neutral-900)',
-        marginBottom: 'var(--space-2)',
+        marginBottom: 'var(--space-1)',
     },
     serviceTagline: {
         fontSize: 'var(--text-sm)',
@@ -108,40 +165,203 @@ const pageStyles = {
         marginBottom: 'var(--space-4)',
     },
     serviceDescription: {
-        fontSize: 'var(--text-base)',
+        fontSize: 'var(--text-sm)',
         color: 'var(--neutral-600)',
         lineHeight: 'var(--leading-relaxed)',
-        marginBottom: 'var(--space-6)',
+        marginBottom: 'var(--space-4)',
+    },
+    expandedContent: {
+        opacity: 0,
+        maxHeight: 0,
+        overflow: 'hidden',
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        marginTop: 'var(--space-2)',
+    },
+    expandedContentVisible: {
+        opacity: 1,
+        maxHeight: 'none',
+        overflow: 'visible',
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        marginTop: 'var(--space-2)',
+    },
+    sectionTitle: {
+        fontFamily: 'var(--font-display)',
+        fontSize: 'var(--text-base)',
+        fontWeight: 'var(--font-semibold)',
+        color: 'var(--neutral-900)',
+        marginBottom: 'var(--space-2)',
+        marginTop: 'var(--space-3)',
     },
     featuresList: {
         listStyle: 'none',
         padding: 0,
         margin: 0,
-        marginBottom: 'var(--space-6)',
+        marginBottom: 'var(--space-3)',
     },
     featureItem: {
         display: 'flex',
         alignItems: 'center',
-        gap: 'var(--space-3)',
-        padding: 'var(--space-2) 0',
+        gap: 'var(--space-2)',
+        padding: 'var(--space-1) 0',
+        fontSize: 'var(--text-sm)',
+        color: 'var(--neutral-700)',
+    },
+    whoUsesItList: {
+        listStyle: 'none',
+        padding: 0,
+        margin: 0,
+        marginBottom: 'var(--space-3)',
+    },
+    whoUsesItItem: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-2)',
+        padding: 'var(--space-1) 0',
         fontSize: 'var(--text-sm)',
         color: 'var(--neutral-700)',
     },
     featureBullet: {
-        width: '6px',
-        height: '6px',
+        width: '4px',
+        height: '4px',
         background: 'var(--accent-emerald)',
         borderRadius: '50%',
         flexShrink: 0,
     },
     problemSolved: {
-        padding: 'var(--space-4)',
+        padding: 'var(--space-3)',
         background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)',
         borderRadius: 'var(--radius-md)',
         fontSize: 'var(--text-sm)',
         color: 'var(--neutral-700)',
         borderLeft: '3px solid var(--accent-emerald)',
+        marginTop: 'var(--space-2)',
     },
+    arrowIcon: {
+        fontSize: '1.5rem',
+        color: 'var(--neutral-400)',
+        transition: 'all 0.3s ease',
+    },
+    arrowIconHovered: {
+        fontSize: '1.5rem',
+        color: 'var(--primary-blue)',
+        transition: 'all 0.3s ease',
+        transform: 'translateX(4px)',
+    },
+    
+    // Mobile Styles
+    mobileServicesContainer: {
+        padding: 'var(--space-6)',
+    },
+    mobileCategoryTitle: {
+        fontFamily: 'var(--font-display)',
+        fontSize: 'var(--text-2xl)',
+        fontWeight: 'var(--font-bold)',
+        color: 'var(--neutral-900)',
+        marginBottom: 'var(--space-6)',
+        textAlign: 'center',
+        position: 'relative',
+    },
+    mobileCategoryUnderline: {
+        position: 'absolute',
+        bottom: '-8px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '60px',
+        height: '3px',
+        background: 'var(--gradient-primary)',
+        borderRadius: '2px',
+    },
+    mobileCarousel: {
+        position: 'relative',
+        overflow: 'hidden',
+        marginBottom: 'var(--space-8)',
+        width: '100%',
+        maxWidth: '320px', // Slightly wider than card to center it
+        margin: '0 auto var(--space-8) auto', // Center the carousel
+    },
+    mobileCarouselTrack: {
+        display: 'flex',
+        transition: 'transform 0.5s ease-in-out',
+        gap: 'var(--space-6)', // Increased gap between cards
+    },
+    mobileServiceCard: {
+        minWidth: '300px',
+        width: '300px',
+        background: 'var(--white)',
+        borderRadius: 'var(--radius-2xl)',
+        padding: 'var(--space-6)',
+        border: '1px solid var(--neutral-200)',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        position: 'relative',
+        overflow: 'visible',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '400px',
+        flexShrink: 0, // Prevent cards from shrinking
+    },
+    mobileServiceCardExpanded: {
+        minWidth: '300px',
+        width: '300px',
+        background: 'var(--white)',
+        borderRadius: 'var(--radius-2xl)',
+        padding: 'var(--space-6)',
+        border: '2px solid var(--primary-blue)',
+        boxShadow: '0 8px 25px rgba(59, 130, 246, 0.15)',
+        position: 'relative',
+        overflow: 'visible',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '400px',
+        flexShrink: 0, // Prevent cards from shrinking
+    },
+    mobileShowMoreButton: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 'var(--space-2)',
+        width: '100%',
+        padding: 'var(--space-4) var(--space-6)',
+        marginTop: 'auto', // Push button to bottom of card
+        marginBottom: 0,
+        background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+        color: 'white',
+        border: 'none',
+        borderRadius: 'var(--radius-lg)',
+        fontSize: '16px',
+        fontWeight: '600',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+        minHeight: '48px',
+        zIndex: 10,
+        position: 'relative',
+    },
+    mobileExpandedContent: {
+        marginTop: 'var(--space-4)',
+        paddingTop: 'var(--space-4)',
+        borderTop: '1px solid var(--neutral-200)',
+    },
+    mobileCarouselDots: {
+        display: 'flex',
+        justifyContent: 'center',
+        gap: 'var(--space-2)',
+        marginTop: 'var(--space-4)',
+    },
+    mobileCarouselDot: {
+        width: '8px',
+        height: '8px',
+        borderRadius: '50%',
+        background: 'var(--neutral-300)',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+    },
+    mobileCarouselDotActive: {
+        width: '24px',
+        borderRadius: '12px',
+        background: 'var(--primary-blue)',
+    },
+    
+    // CTA
     cta: {
         marginTop: 'var(--space-16)',
         textAlign: 'center',
@@ -174,20 +394,243 @@ const iconMap = {
 };
 
 export default function Services() {
-    const handleCardHover = (e, isEnter) => {
-        const topBar = e.currentTarget.querySelector('[data-topbar]');
-        if (isEnter) {
-            e.currentTarget.style.transform = 'translateY(-12px)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-xl)';
-            e.currentTarget.style.borderColor = 'var(--primary-blue-light)';
-            if (topBar) topBar.style.transform = 'scaleX(1)';
+    const [hoveredCard, setHoveredCard] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const [currentSlides, setCurrentSlides] = useState({}); // Object to track slides for each category
+    const [expandedMobileCard, setExpandedMobileCard] = useState(null);
+    const [pausedCarousels, setPausedCarousels] = useState(new Set()); // Track which carousels are paused
+    const autoSlideRefs = useRef({}); // Object to track intervals for each category
+
+    // Check if mobile on mount and resize
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Auto-slide functionality for mobile
+    useEffect(() => {
+        if (!isMobile) return;
+
+        const servicesByCategory = SERVICES.reduce((acc, service) => {
+            const category = service.category || 'Other';
+            if (!acc[category]) {
+                acc[category] = [];
+            }
+            acc[category].push(service);
+            return acc;
+        }, {});
+
+        // Initialize current slides for all categories
+        const initialSlides = {};
+        Object.keys(servicesByCategory).forEach(category => {
+            initialSlides[category] = 0;
+        });
+        setCurrentSlides(initialSlides);
+
+        // Start auto-slide for each category
+        Object.keys(servicesByCategory).forEach(category => {
+            startAutoSlideForCategory(category);
+        });
+
+        return () => {
+            // Cleanup all intervals
+            Object.values(autoSlideRefs.current).forEach(interval => {
+                if (interval) clearInterval(interval);
+            });
+        };
+    }, [isMobile, pausedCarousels]);
+
+    // Handle mobile card expansion with auto-scroll pause
+    const handleMobileCardToggle = (service, category) => {
+        console.log('Card clicked - Service:', service.id, 'Category:', category);
+        
+        const expandedKey = `${category}-${service.id}`;
+        
+        console.log('ExpandedKey:', expandedKey);
+        console.log('Current expandedMobileCard:', expandedMobileCard);
+        
+        if (expandedMobileCard === expandedKey) {
+            // Collapsing - resume auto-scroll
+            console.log('Collapsing card');
+            setExpandedMobileCard(null);
+            setPausedCarousels(prev => {
+                const newSet = new Set(prev);
+                newSet.delete(category);
+                return newSet;
+            });
+            
+            // Restart auto-scroll for this category
+            startAutoSlideForCategory(category);
         } else {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'none';
-            e.currentTarget.style.borderColor = 'var(--neutral-200)';
-            if (topBar) topBar.style.transform = 'scaleX(0)';
+            // Expanding - pause auto-scroll
+            console.log('Expanding card');
+            setExpandedMobileCard(expandedKey);
+            setPausedCarousels(prev => new Set(prev).add(category));
+            
+            // Stop auto-scroll for this category
+            if (autoSlideRefs.current[category]) {
+                clearInterval(autoSlideRefs.current[category]);
+            }
         }
     };
+
+    // Function to start auto-slide for a specific category
+    const startAutoSlideForCategory = (category) => {
+        const servicesByCategory = SERVICES.reduce((acc, service) => {
+            const cat = service.category || 'Other';
+            if (!acc[cat]) {
+                acc[cat] = [];
+            }
+            acc[cat].push(service);
+            return acc;
+        }, {});
+
+        const services = servicesByCategory[category];
+        if (!services || pausedCarousels.has(category)) return;
+
+        autoSlideRefs.current[category] = setInterval(() => {
+            setCurrentSlides(prev => ({
+                ...prev,
+                [category]: (prev[category] + 1) % services.length
+            }));
+        }, 3000 + Math.random() * 1000);
+    };
+
+    // Handle desktop card hover
+    const handleCardHover = (cardId, isEnter) => {
+        if (isMobile) return; // Don't use hover on mobile
+        
+        if (isEnter) {
+            setHoveredCard(cardId);
+        } else {
+            setHoveredCard(null);
+        }
+    };
+
+    // Handle manual slide change
+    const goToSlide = (category, index) => {
+        setCurrentSlides(prev => ({
+            ...prev,
+            [category]: index
+        }));
+    };
+
+    // Mobile Carousel Component
+    const MobileServiceCarousel = ({ services, category }) => {
+        const currentSlide = currentSlides[category] || 0;
+        
+        return (
+            <div style={pageStyles.mobileServicesContainer}>
+                <h2 style={pageStyles.mobileCategoryTitle}>
+                    {category}
+                    <div style={pageStyles.mobileCategoryUnderline} />
+                </h2>
+                
+                <div style={pageStyles.mobileCarousel}>
+                    <div 
+                        style={{
+                            ...pageStyles.mobileCarouselTrack,
+                            transform: `translateX(-${currentSlide * (300 + 24)}px)` // 300px card width + 24px gap
+                        }}
+                    >
+                        {services.map((service, idx) => {
+                            const IconComponent = iconMap[service.id] || FaDesktop;
+                            const cardId = `mobile-${category}-${service.id}-${idx}`;
+                            const expandedKey = `${category}-${service.id}`; // Key based on category and service ID
+                            const isExpanded = expandedMobileCard === expandedKey;
+
+                            return (
+                                <div
+                                    key={cardId}
+                                    style={isExpanded ? pageStyles.mobileServiceCardExpanded : pageStyles.mobileServiceCard}
+                                >
+                                    <div style={pageStyles.serviceIcon}>
+                                        <IconComponent />
+                                    </div>
+                                    
+                                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                        <h3 style={pageStyles.serviceTitle}>{service.title}</h3>
+                                        <p style={pageStyles.serviceTagline}>{service.tagline}</p>
+                                        <p style={{ ...pageStyles.serviceDescription, flex: 1 }}>{service.shortDescription}</p>
+
+                                        {/* Always visible Show More Details button */}
+                                        <button
+                                            style={pageStyles.mobileShowMoreButton}
+                                            onClick={() => handleMobileCardToggle(service, category)}
+                                        >
+                                            {isExpanded ? 'Show Less' : 'Show More Details'}
+                                            {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
+                                        </button>
+                                    </div>
+
+                                    {/* Expanded Content */}
+                                    {isExpanded && (
+                                        <div style={pageStyles.mobileExpandedContent}>
+                                            <h4 style={pageStyles.sectionTitle}>Key Features</h4>
+                                            <ul style={pageStyles.featuresList}>
+                                                {service.features.map((feature, featureIdx) => (
+                                                    <li key={featureIdx} style={pageStyles.featureItem}>
+                                                        <FaCheck style={{ color: 'var(--accent-emerald)', fontSize: '12px' }} />
+                                                        {feature}
+                                                    </li>
+                                                ))}
+                                            </ul>
+
+                                            <h4 style={pageStyles.sectionTitle}>Who Uses It</h4>
+                                            <ul style={pageStyles.whoUsesItList}>
+                                                {service.whoUsesIt.map((user, userIdx) => (
+                                                    <li key={userIdx} style={pageStyles.whoUsesItItem}>
+                                                        <span style={pageStyles.featureBullet} />
+                                                        {user}
+                                                    </li>
+                                                ))}
+                                            </ul>
+
+                                            <div style={pageStyles.problemSolved}>
+                                                <strong>Problem Solved:</strong> {service.problemSolved}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Carousel Dots */}
+                <div style={pageStyles.mobileCarouselDots}>
+                    {services.map((_, idx) => (
+                        <div
+                            key={idx}
+                            style={{
+                                ...pageStyles.mobileCarouselDot,
+                                ...(currentSlide === idx ? pageStyles.mobileCarouselDotActive : {})
+                            }}
+                            onClick={() => goToSlide(category, idx)}
+                        />
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+    // Group services by category
+    const servicesByCategory = SERVICES.reduce((acc, service) => {
+        const category = service.category || 'Other';
+        if (!acc[category]) {
+            acc[category] = [];
+        }
+        acc[category].push(service);
+        return acc;
+    }, {});
+
+    // Get core services for mobile
+    const coreServices = SERVICES.filter(service => service.category === 'Core Services');
 
     return (
         <>
@@ -206,65 +649,119 @@ export default function Services() {
                 <section style={pageStyles.hero}>
                     <div style={pageStyles.heroOrbs} />
                     <div style={pageStyles.container}>
-                        <h1 style={pageStyles.heroTitle}>Our Services</h1>
+                        <h1 style={pageStyles.heroTitle}>Digital Campus Solutions</h1>
                         <p style={pageStyles.heroSubtitle}>
                             Modular solutions designed for modern college management. Pick what you need, scale as you grow.
                         </p>
                     </div>
                 </section>
 
-                {/* Services Grid */}
-                <section style={pageStyles.section}>
-                    <div style={pageStyles.container}>
-                        <div style={pageStyles.servicesGrid}>
-                            {SERVICES.map((service) => {
-                                const IconComponent = iconMap[service.id] || FaDesktop;
-
-                                return (
-                                    <div
-                                        key={service.id}
-                                        id={service.id}
-                                        style={pageStyles.serviceCard}
-                                        onMouseEnter={(e) => handleCardHover(e, true)}
-                                        onMouseLeave={(e) => handleCardHover(e, false)}
-                                    >
-                                        <div data-topbar style={pageStyles.serviceCardTopBar} />
-                                        <div style={pageStyles.serviceIcon}>
-                                            <IconComponent />
-                                        </div>
-                                        <h2 style={pageStyles.serviceTitle}>{service.title}</h2>
-                                        <p style={pageStyles.serviceTagline}>{service.tagline}</p>
-                                        <p style={pageStyles.serviceDescription}>{service.shortDescription}</p>
-
-                                        <ul style={pageStyles.featuresList}>
-                                            {service.features.slice(0, 5).map((feature, idx) => (
-                                                <li key={idx} style={pageStyles.featureItem}>
-                                                    <span style={pageStyles.featureBullet} />
-                                                    {feature}
-                                                </li>
-                                            ))}
-                                        </ul>
-
-                                        <div style={pageStyles.problemSolved}>
-                                            <strong>Problem Solved:</strong> {service.problemSolved}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-
-                        {/* CTA */}
-                        <div style={pageStyles.cta}>
+                {/* Mobile View - Instagram-style Carousel for All Categories */}
+                {isMobile && (
+                    <section style={pageStyles.section}>
+                        {Object.entries(servicesByCategory).map(([category, services]) => (
+                            <MobileServiceCarousel key={category} services={services} category={category} />
+                        ))}
+                        
+                        {/* Mobile CTA */}
+                        <div style={{...pageStyles.cta, margin: 'var(--space-8) var(--space-6) 0'}}>
                             <h2 style={pageStyles.ctaTitle}>Need a Custom Solution?</h2>
                             <p style={pageStyles.ctaText}>
-                                We can build tailored modules for your specific campus needs.
+                                We can build tailored modules for your specific campus needs. Let's discuss your requirements.
                             </p>
                             <Button href="/contact" variant="glass" size="large" rightIcon={<FaArrowRight />}>
-                                Let's Discuss
+                                Let's Discuss Your Needs
                             </Button>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                )}
+
+                {/* Desktop View - Grid Layout */}
+                {!isMobile && (
+                    <section style={pageStyles.section}>
+                        <div style={pageStyles.container}>
+                            {Object.entries(servicesByCategory).map(([category, services]) => (
+                                <div key={category} style={pageStyles.categorySection}>
+                                    <h2 style={pageStyles.categoryTitle}>
+                                        {category}
+                                        <div style={pageStyles.categoryTitleUnderline} />
+                                    </h2>
+                                    
+                                    <div style={pageStyles.servicesGrid}>
+                                        {services.map((service, idx) => {
+                                            const IconComponent = iconMap[service.id] || FaDesktop;
+                                            const cardId = `${category}-${service.id}-${idx}`;
+                                            const isHovered = hoveredCard === cardId;
+
+                                            return (
+                                                <div
+                                                    key={cardId}
+                                                    style={isHovered ? pageStyles.serviceCardHovered : pageStyles.serviceCard}
+                                                    onMouseEnter={() => handleCardHover(cardId, true)}
+                                                    onMouseLeave={() => handleCardHover(cardId, false)}
+                                                >
+                                                    <div style={isHovered ? pageStyles.serviceCardTopBarHovered : pageStyles.serviceCardTopBar} />
+                                                    
+                                                    <div style={pageStyles.serviceIcon}>
+                                                        <IconComponent />
+                                                    </div>
+                                                    
+                                                    <div style={pageStyles.serviceHeader}>
+                                                        <div>
+                                                            <h3 style={pageStyles.serviceTitle}>{service.title}</h3>
+                                                            <p style={pageStyles.serviceTagline}>{service.tagline}</p>
+                                                        </div>
+                                                        <FaArrowRight style={isHovered ? pageStyles.arrowIconHovered : pageStyles.arrowIcon} />
+                                                    </div>
+                                                    
+                                                    <p style={pageStyles.serviceDescription}>{service.shortDescription}</p>
+
+                                                    {/* Expanded Content - Hidden by default */}
+                                                    <div style={isHovered ? pageStyles.expandedContentVisible : pageStyles.expandedContent}>
+                                                        <h4 style={pageStyles.sectionTitle}>Key Features</h4>
+                                                        <ul style={pageStyles.featuresList}>
+                                                            {service.features.map((feature, featureIdx) => (
+                                                                <li key={featureIdx} style={pageStyles.featureItem}>
+                                                                    <FaCheck style={{ color: 'var(--accent-emerald)', fontSize: '12px' }} />
+                                                                    {feature}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+
+                                                        <h4 style={pageStyles.sectionTitle}>Who Uses It</h4>
+                                                        <ul style={pageStyles.whoUsesItList}>
+                                                            {service.whoUsesIt.map((user, userIdx) => (
+                                                                <li key={userIdx} style={pageStyles.whoUsesItItem}>
+                                                                    <span style={pageStyles.featureBullet} />
+                                                                    {user}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+
+                                                        <div style={pageStyles.problemSolved}>
+                                                            <strong>Problem Solved:</strong> {service.problemSolved}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            ))}
+
+                            {/* CTA */}
+                            <div style={pageStyles.cta}>
+                                <h2 style={pageStyles.ctaTitle}>Need a Custom Solution?</h2>
+                                <p style={pageStyles.ctaText}>
+                                    We can build tailored modules for your specific campus needs. Let's discuss your requirements.
+                                </p>
+                                <Button href="/contact" variant="glass" size="large" rightIcon={<FaArrowRight />}>
+                                    Let's Discuss Your Needs
+                                </Button>
+                            </div>
+                        </div>
+                    </section>
+                )}
             </main>
 
             <Footer />
