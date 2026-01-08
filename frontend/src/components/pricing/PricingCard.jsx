@@ -1,138 +1,179 @@
 /**
  * PricingCard Component
- * Individual pricing plan card
+ * Individual pricing plan card - Redesigned with modern, sleek styling
  */
 
-import { FaCheck, FaTimes, FaArrowRight } from 'react-icons/fa';
+import { FaCheck, FaArrowRight, FaStar } from 'react-icons/fa';
 import Button from '../common/Button';
 
 const cardStyles = {
     card: {
         background: 'var(--white)',
-        border: '2px solid var(--neutral-200)',
-        borderRadius: 'var(--radius-2xl)',
-        padding: 'var(--space-10)',
-        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        border: '1px solid var(--neutral-200)',
+        borderRadius: 'var(--radius-xl)',
+        padding: 'var(--space-6)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         position: 'relative',
         overflow: 'hidden',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
     },
     cardFeatured: {
-        background: 'var(--gradient-primary)',
-        color: 'var(--white)',
-        border: 'none',
-        transform: 'scale(1.05)',
-        boxShadow: 'var(--shadow-purple-hover)',
+        background: 'var(--white)',
+        border: '2px solid var(--primary-blue)',
+        boxShadow: '0 8px 25px rgba(59, 130, 246, 0.15)',
+        transform: 'scale(1.02)',
         zIndex: 10,
     },
     badge: {
         position: 'absolute',
-        top: 'var(--space-4)',
-        right: 'var(--space-4)',
-        padding: 'var(--space-1) var(--space-3)',
-        background: 'rgba(255, 255, 255, 0.2)',
-        borderRadius: 'var(--radius-full)',
+        top: '-1px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        padding: 'var(--space-1) var(--space-4)',
+        background: 'var(--gradient-primary)',
+        color: 'var(--white)',
+        borderRadius: '0 0 var(--radius-lg) var(--radius-lg)',
         fontSize: 'var(--text-xs)',
         fontWeight: 'var(--font-semibold)',
         textTransform: 'uppercase',
         letterSpacing: 'var(--tracking-wide)',
-    },
-    topBar: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '4px',
-        background: 'var(--gradient-primary)',
-        transform: 'scaleX(0)',
-        transition: 'transform 0.5s ease',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-1)',
     },
     header: {
         textAlign: 'center',
-        marginBottom: 'var(--space-8)',
+        marginBottom: 'var(--space-6)',
+        paddingTop: featured => featured ? 'var(--space-6)' : '0',
     },
     name: {
         fontFamily: 'var(--font-display)',
-        fontSize: 'var(--text-2xl)',
+        fontSize: 'var(--text-xl)',
         fontWeight: 'var(--font-bold)',
-        marginBottom: 'var(--space-2)',
+        color: 'var(--neutral-900)',
+        marginBottom: 'var(--space-1)',
     },
     tagline: {
         fontSize: 'var(--text-sm)',
-        opacity: 0.8,
-        marginBottom: 'var(--space-6)',
+        color: 'var(--neutral-600)',
+        marginBottom: 'var(--space-4)',
+        fontWeight: 'var(--font-medium)',
+    },
+    priceContainer: {
+        marginBottom: 'var(--space-4)',
     },
     price: {
         fontFamily: 'var(--font-display)',
-        fontSize: 'var(--text-3xl)',
+        fontSize: 'var(--text-2xl)',
         fontWeight: 'var(--font-extrabold)',
-        marginBottom: 'var(--space-2)',
+        color: 'var(--neutral-900)',
+        marginBottom: 'var(--space-1)',
+    },
+    priceUnit: {
+        fontSize: 'var(--text-sm)',
+        color: 'var(--neutral-500)',
+        fontWeight: 'var(--font-normal)',
     },
     bestFor: {
-        fontSize: 'var(--text-sm)',
-        opacity: 0.7,
-        marginBottom: 'var(--space-4)',
-    },
-    setupTime: {
         fontSize: 'var(--text-xs)',
-        padding: 'var(--space-1) var(--space-3)',
-        background: 'rgba(0, 0, 0, 0.05)',
+        color: 'var(--neutral-500)',
+        marginBottom: 'var(--space-4)',
+        padding: 'var(--space-2) var(--space-3)',
+        background: 'var(--neutral-50)',
         borderRadius: 'var(--radius-full)',
         display: 'inline-block',
-    },
-    setupTimeFeatured: {
-        background: 'rgba(255, 255, 255, 0.15)',
+        fontWeight: 'var(--font-medium)',
     },
     features: {
         flex: 1,
-        marginBottom: 'var(--space-8)',
+        marginBottom: 'var(--space-6)',
     },
     featuresList: {
         listStyle: 'none',
         padding: 0,
         margin: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-3)',
     },
     feature: {
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         gap: 'var(--space-3)',
-        padding: 'var(--space-3) 0',
         fontSize: 'var(--text-sm)',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-    },
-    featureFeatured: {
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        color: 'var(--neutral-700)',
+        lineHeight: 'var(--leading-relaxed)',
     },
     featureIcon: {
-        width: '20px',
-        height: '20px',
+        width: '16px',
+        height: '16px',
         borderRadius: 'var(--radius-full)',
+        background: 'var(--accent-emerald)',
+        color: 'var(--white)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '0.65rem',
+        fontSize: '0.6rem',
         flexShrink: 0,
-    },
-    featureIconIncluded: {
-        background: 'rgba(16, 185, 129, 0.1)',
-        color: 'var(--accent-emerald)',
-    },
-    featureIconIncludedFeatured: {
-        background: 'rgba(255, 255, 255, 0.2)',
-        color: 'var(--white)',
+        marginTop: '2px',
     },
     featureIconExcluded: {
-        background: 'rgba(0, 0, 0, 0.05)',
+        background: 'var(--neutral-200)',
         color: 'var(--neutral-400)',
     },
-    featureIconExcludedFeatured: {
-        background: 'rgba(255, 255, 255, 0.1)',
-        color: 'rgba(255, 255, 255, 0.4)',
+    featureText: {
+        opacity: 1,
+    },
+    featureTextExcluded: {
+        opacity: 0.6,
+        color: 'var(--neutral-500)',
+    },
+    featureUpgrade: {
+        fontSize: 'var(--text-xs)',
+        color: 'var(--primary-blue)',
+        fontWeight: 'var(--font-semibold)',
+        marginLeft: 'var(--space-2)',
+        padding: 'var(--space-1) var(--space-2)',
+        background: 'rgba(59, 130, 246, 0.1)',
+        borderRadius: 'var(--radius-sm)',
     },
     cta: {
         marginTop: 'auto',
+    },
+    ctaButton: {
+        width: '100%',
+        padding: 'var(--space-3) var(--space-4)',
+        borderRadius: 'var(--radius-lg)',
+        fontSize: 'var(--text-sm)',
+        fontWeight: 'var(--font-semibold)',
+        transition: 'all 0.2s ease',
+        border: 'none',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 'var(--space-2)',
+        textDecoration: 'none',
+    },
+    ctaButtonPrimary: {
+        background: 'var(--gradient-primary)',
+        color: 'var(--white)',
+        boxShadow: '0 2px 4px rgba(59, 130, 246, 0.2)',
+    },
+    ctaButtonSecondary: {
+        background: 'var(--white)',
+        color: 'var(--primary-blue)',
+        border: '1px solid var(--primary-blue)',
+    },
+    setupTime: {
+        fontSize: 'var(--text-xs)',
+        color: 'var(--neutral-500)',
+        textAlign: 'center',
+        marginTop: 'var(--space-2)',
+        fontWeight: 'var(--font-medium)',
     },
 };
 
@@ -149,23 +190,23 @@ const PricingCard = ({
 }) => {
     const handleMouseEnter = (e) => {
         if (!featured) {
-            e.currentTarget.style.transform = 'translateY(-16px) scale(1.02)';
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
             e.currentTarget.style.borderColor = 'var(--primary-blue)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-blue)';
-            e.currentTarget.querySelector('[data-topbar]').style.transform = 'scaleX(1)';
         } else {
-            e.currentTarget.style.transform = 'translateY(-16px) scale(1.08)';
+            e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
+            e.currentTarget.style.boxShadow = '0 12px 35px rgba(59, 130, 246, 0.2)';
         }
     };
 
     const handleMouseLeave = (e) => {
         if (!featured) {
-            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.05)';
             e.currentTarget.style.borderColor = 'var(--neutral-200)';
-            e.currentTarget.style.boxShadow = 'none';
-            e.currentTarget.querySelector('[data-topbar]').style.transform = 'scaleX(0)';
         } else {
-            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.transform = 'scale(1.02)';
+            e.currentTarget.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.15)';
         }
     };
 
@@ -178,71 +219,99 @@ const PricingCard = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            {/* Top Bar (for non-featured) */}
-            {!featured && <div data-topbar style={cardStyles.topBar} />}
-
             {/* Badge */}
-            {featured && <span style={cardStyles.badge}>Most Popular</span>}
+            {featured && (
+                <div style={cardStyles.badge}>
+                    <FaStar size={10} />
+                    Most Popular
+                </div>
+            )}
 
             {/* Header */}
-            <div style={cardStyles.header}>
+            <div style={{
+                ...cardStyles.header,
+                paddingTop: featured ? 'var(--space-6)' : '0',
+            }}>
                 <h3 style={cardStyles.name}>{name}</h3>
                 <p style={cardStyles.tagline}>{tagline}</p>
-                <div style={cardStyles.price}>{price}</div>
-                <p style={cardStyles.bestFor}>{bestFor}</p>
-                <span
+                
+                <div style={cardStyles.priceContainer}>
+                    <div style={cardStyles.price}>
+                        {price}
+                        {price !== 'Contact for Quote' && (
+                            <span style={cardStyles.priceUnit}> /month</span>
+                        )}
+                    </div>
+                </div>
+                
+                <span style={cardStyles.bestFor}>{bestFor}</span>
+            </div>
+
+            {/* CTA - Moved above features */}
+            <div style={{...cardStyles.cta, marginBottom: 'var(--space-6)', marginTop: '0'}}>
+                <a
+                    href={ctaHref}
                     style={{
-                        ...cardStyles.setupTime,
-                        ...(featured ? cardStyles.setupTimeFeatured : {}),
+                        ...cardStyles.ctaButton,
+                        ...(featured ? cardStyles.ctaButtonPrimary : cardStyles.ctaButtonSecondary),
+                    }}
+                    onMouseEnter={(e) => {
+                        if (featured) {
+                            e.currentTarget.style.transform = 'translateY(-1px)';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                        } else {
+                            e.currentTarget.style.background = 'var(--primary-blue)';
+                            e.currentTarget.style.color = 'var(--white)';
+                        }
+                    }}
+                    onMouseLeave={(e) => {
+                        if (featured) {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = '0 2px 4px rgba(59, 130, 246, 0.2)';
+                        } else {
+                            e.currentTarget.style.background = 'var(--white)';
+                            e.currentTarget.style.color = 'var(--primary-blue)';
+                        }
                     }}
                 >
-                    Setup: {setupTime}
-                </span>
+                    {ctaText}
+                    <FaArrowRight size={12} />
+                </a>
             </div>
 
             {/* Features */}
             <div style={cardStyles.features}>
                 <ul style={cardStyles.featuresList}>
                     {features.map((feature, index) => (
-                        <li
-                            key={index}
-                            style={{
-                                ...cardStyles.feature,
-                                ...(featured ? cardStyles.featureFeatured : {}),
-                                opacity: feature.included ? 1 : 0.5,
-                            }}
-                        >
+                        <li key={index} style={cardStyles.feature}>
                             <span
                                 style={{
                                     ...cardStyles.featureIcon,
-                                    ...(feature.included
-                                        ? featured
-                                            ? cardStyles.featureIconIncludedFeatured
-                                            : cardStyles.featureIconIncluded
-                                        : featured
-                                            ? cardStyles.featureIconExcludedFeatured
-                                            : cardStyles.featureIconExcluded),
+                                    ...(feature.included ? {} : cardStyles.featureIconExcluded),
                                 }}
                             >
-                                {feature.included ? <FaCheck /> : <FaTimes />}
+                                <FaCheck />
                             </span>
-                            <span>{feature.text}</span>
+                            <span
+                                style={{
+                                    ...cardStyles.featureText,
+                                    ...(feature.included ? {} : cardStyles.featureTextExcluded),
+                                }}
+                            >
+                                {feature.text}
+                                {!feature.included && feature.upgrade && (
+                                    <span style={cardStyles.featureUpgrade}>
+                                        in {feature.upgrade}
+                                    </span>
+                                )}
+                            </span>
                         </li>
                     ))}
                 </ul>
             </div>
 
-            {/* CTA */}
-            <div style={cardStyles.cta}>
-                <Button
-                    href={ctaHref}
-                    variant={featured ? 'glass' : 'primary'}
-                    fullWidth
-                    rightIcon={<FaArrowRight />}
-                >
-                    {ctaText}
-                </Button>
-            </div>
+            {/* Setup Time */}
+            <div style={cardStyles.setupTime}>Setup: {setupTime}</div>
         </div>
     );
 };

@@ -4,12 +4,13 @@
  */
 
 import Head from 'next/head';
-import { FaArrowRight, FaQuestionCircle } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import Button from '../components/common/Button';
 import PageHero from '../components/common/PageHero';
 import PricingCard from '../components/pricing/PricingCard';
+import FAQSection from '../components/pricing/FAQSection';
 import { PRICING_PLANS } from '../utils/constants';
 
 const pageStyles = {
@@ -58,9 +59,11 @@ const pageStyles = {
     },
     pricingGrid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-        gap: 'var(--space-8)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: 'var(--space-6)',
         alignItems: 'stretch',
+        maxWidth: '1000px',
+        margin: '0 auto',
     },
     customPlan: {
         marginTop: 'var(--space-16)',
@@ -102,43 +105,6 @@ const pageStyles = {
         fontSize: 'var(--text-sm)',
         color: 'var(--neutral-700)',
     },
-    faq: {
-        marginTop: 'var(--space-20)',
-    },
-    faqTitle: {
-        fontFamily: 'var(--font-display)',
-        fontSize: 'var(--text-2xl)',
-        fontWeight: 'var(--font-bold)',
-        color: 'var(--neutral-900)',
-        textAlign: 'center',
-        marginBottom: 'var(--space-10)',
-    },
-    faqGrid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-        gap: 'var(--space-6)',
-    },
-    faqItem: {
-        padding: 'var(--space-6)',
-        background: 'var(--white)',
-        borderRadius: 'var(--radius-xl)',
-        border: '1px solid var(--neutral-200)',
-    },
-    faqQuestion: {
-        fontFamily: 'var(--font-display)',
-        fontSize: 'var(--text-base)',
-        fontWeight: 'var(--font-semibold)',
-        color: 'var(--neutral-900)',
-        marginBottom: 'var(--space-3)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'var(--space-2)',
-    },
-    faqAnswer: {
-        fontSize: 'var(--text-sm)',
-        color: 'var(--neutral-600)',
-        lineHeight: 'var(--leading-relaxed)',
-    },
     cta: {
         marginTop: 'var(--space-16)',
         textAlign: 'center',
@@ -169,28 +135,40 @@ const pageStyles = {
 
 const faqs = [
     {
-        question: 'Is there a free trial?',
-        answer: 'We offer personalized demos where we set up a test environment for your college to explore. Contact us to schedule.',
+        question: 'Can I try Univy before committing to a subscription plan?',
+        answer: 'We offer personalized demos where we set up a complete test environment for your college to explore all features. Our team will guide you through every module and answer your questions. Contact us to schedule your demo session.',
     },
     {
-        question: 'Can we upgrade plans later?',
-        answer: 'Absolutely! You can upgrade your plan anytime. We\'ll help migrate your data seamlessly.',
+        question: 'How does upgrading or changing my plan work?',
+        answer: 'You can upgrade your plan at any time. We\'ll prorate the difference and help migrate your data seamlessly to the new tier without any downtime or data loss.',
     },
     {
-        question: 'What\'s included in support?',
-        answer: 'All plans include email support. Priority and dedicated support get faster response times and direct contact.',
+        question: 'What kind of support and assistance is included with each plan?',
+        answer: 'All plans include email support with 24-48 hour response times. Priority support gets you responses within 4 hours, while Enterprise includes dedicated account managers and phone support.',
     },
     {
-        question: 'How long is the contract?',
-        answer: 'We offer flexible annual contracts. Multi-year agreements come with additional discounts.',
+        question: 'What is the minimum contract length for colleges?',
+        answer: 'We offer flexible annual contracts as our standard option. Multi-year agreements of 2-3 years come with additional discounts of up to 20% on your total subscription cost.',
     },
     {
-        question: 'Do you charge per student?',
-        answer: 'No per-student pricing. We charge based on college size tiers for predictable budgeting.',
+        question: 'Is there a per-student pricing model or hidden fees?',
+        answer: 'No per-student pricing or hidden fees. We charge based on college size tiers for predictable budgeting. What you see is what you pay.',
     },
     {
-        question: 'Is training included?',
-        answer: 'Yes! All plans include training sessions for admin, faculty, and Campus Mantri.',
+        question: 'Does Univy include training for our staff and faculty members?',
+        answer: 'Yes! All plans include comprehensive training sessions for administrators, faculty members, and Campus Mantri. We ensure everyone is comfortable using the platform.',
+    },
+    {
+        question: 'How secure is my college data on the Univy platform?',
+        answer: 'We use enterprise-grade security with end-to-end encryption, regular backups, and compliance with educational data protection standards. Your data is safe with us.',
+    },
+    {
+        question: 'Can Univy integrate with our existing college management systems?',
+        answer: 'Absolutely. We offer API integrations with popular ERP systems, attendance software, and learning management systems. Our Enterprise plan includes custom integration support.',
+    },
+    {
+        question: 'What happens to our data if we decide to cancel the subscription?',
+        answer: 'You own your data. Upon cancellation, we provide a complete data export in standard formats. We retain backups for 30 days before permanent deletion, giving you time to migrate.',
     },
 ];
 
@@ -220,20 +198,27 @@ export default function Pricing() {
                 <section style={pageStyles.section}>
                     <div style={pageStyles.container}>
                         <div style={pageStyles.pricingGrid}>
-                            {PRICING_PLANS.map((plan) => (
-                                <PricingCard
-                                    key={plan.id}
-                                    name={plan.name}
-                                    tagline={plan.tagline}
-                                    price={plan.price}
-                                    bestFor={plan.bestFor}
-                                    setupTime={plan.setupTime}
-                                    features={plan.features}
-                                    featured={plan.featured}
-                                    ctaText="Get Started"
-                                    ctaHref="/contact"
-                                />
-                            ))}
+                            {PRICING_PLANS.map((plan) => {
+                                let ctaText = 'Get Started';
+                                if (plan.id === 'basic') ctaText = 'Get Basic';
+                                else if (plan.id === 'pro') ctaText = 'Get Pro';
+                                else if (plan.id === 'enterprise') ctaText = 'Get Enterprise';
+
+                                return (
+                                    <PricingCard
+                                        key={plan.id}
+                                        name={plan.name}
+                                        tagline={plan.tagline}
+                                        price={plan.price}
+                                        bestFor={plan.bestFor}
+                                        setupTime={plan.setupTime}
+                                        features={plan.features}
+                                        featured={plan.featured}
+                                        ctaText={ctaText}
+                                        ctaHref="/contact"
+                                    />
+                                );
+                            })}
                         </div>
 
                         {/* Custom Plan */}
@@ -256,36 +241,7 @@ export default function Pricing() {
                         </div>
 
                         {/* FAQ Section */}
-                        <div style={pageStyles.faq}>
-                            <h2 style={pageStyles.faqTitle}>Frequently Asked Questions</h2>
-                            <div style={pageStyles.faqGrid}>
-                                {faqs.map((faq, index) => (
-                                    <div key={index} style={pageStyles.faqItem}>
-                                        <h3 style={pageStyles.faqQuestion}>
-                                            <FaQuestionCircle style={{ color: 'var(--primary-blue)' }} />
-                                            {faq.question}
-                                        </h3>
-                                        <p style={pageStyles.faqAnswer}>{faq.answer}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* CTA */}
-                        <div style={pageStyles.cta}>
-                            <h2 style={pageStyles.ctaTitle}>Not Sure Which Plan Fits?</h2>
-                            <p style={pageStyles.ctaText}>
-                                Every college is unique. Let's discuss your specific needs and build the perfect solution together.
-                            </p>
-                            <div style={pageStyles.ctaButtons}>
-                                <Button href="/contact" variant="glass" size="large">
-                                    Schedule Consultation
-                                </Button>
-                                <Button href="/contact" variant="glass" size="large">
-                                    Get Custom Quote
-                                </Button>
-                            </div>
-                        </div>
+                        <FAQSection faqs={faqs} />
                     </div>
                 </section>
             </main>
