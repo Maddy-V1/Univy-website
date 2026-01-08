@@ -6,7 +6,7 @@
 
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
-import { FaDesktop, FaFileAlt, FaCalendarCheck, FaUsers, FaLightbulb, FaEnvelope, FaUserShield, FaChartBar, FaArrowRight, FaCheck, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaDesktop, FaFileAlt, FaCalendarCheck, FaUsers, FaLightbulb, FaEnvelope, FaUserShield, FaChartBar, FaArrowRight, FaCheck, FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import Button from '../components/common/Button';
@@ -83,13 +83,13 @@ const pageStyles = {
     },
     servicesGrid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(372px, 1fr))',
         gap: 'var(--space-8)',
-        alignItems: 'start',
+        alignItems: 'stretch',
     },
     serviceCardWrapper: {
         position: 'relative',
-        height: '280px',
+        height: '238px',
     },
     serviceCard: {
         background: 'var(--white)',
@@ -102,10 +102,12 @@ const pageStyles = {
         right: 0,
         overflow: 'hidden',
         cursor: 'pointer',
-        height: '280px',
+        height: '238px',
         transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
         zIndex: 1,
+        display: 'flex',
+        flexDirection: 'column',
     },
     serviceCardHovered: {
         background: 'var(--white)',
@@ -119,7 +121,7 @@ const pageStyles = {
         overflow: 'visible',
         cursor: 'pointer',
         height: 'auto',
-        minHeight: '280px',
+        minHeight: '238px',
         transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         boxShadow: '0 25px 50px rgba(0, 0, 0, 0.2)',
         zIndex: 100,
@@ -133,6 +135,7 @@ const pageStyles = {
         background: 'var(--gradient-primary)',
         transform: 'scaleX(0)',
         transition: 'transform 0.5s ease',
+        display: 'none',
     },
     serviceCardTopBarHovered: {
         position: 'absolute',
@@ -143,6 +146,7 @@ const pageStyles = {
         background: 'var(--gradient-primary)',
         transform: 'scaleX(1)',
         transition: 'transform 0.5s ease',
+        display: 'none',
     },
     serviceIcon: {
         width: '56px',
@@ -154,8 +158,9 @@ const pageStyles = {
         justifyContent: 'center',
         fontSize: '1.5rem',
         color: 'var(--white)',
-        marginBottom: 'var(--space-4)',
+        marginRight: 'var(--space-4)',
         boxShadow: 'var(--shadow-purple)',
+        flexShrink: 0,
     },
     serviceHeader: {
         display: 'flex',
@@ -175,12 +180,16 @@ const pageStyles = {
         color: 'var(--primary-blue)',
         fontWeight: 'var(--font-medium)',
         marginBottom: 'var(--space-4)',
+        minHeight: '40px',
+        display: 'flex',
+        alignItems: 'flex-start',
     },
     serviceDescription: {
         fontSize: 'var(--text-sm)',
         color: 'var(--neutral-600)',
         lineHeight: 'var(--leading-relaxed)',
         marginBottom: 'var(--space-4)',
+        flex: 1,
     },
     expandedContent: {
         opacity: 0,
@@ -308,22 +317,7 @@ const pageStyles = {
         overflow: 'visible',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '400px',
-        flexShrink: 0, // Prevent cards from shrinking
-    },
-    mobileServiceCardExpanded: {
-        minWidth: '300px',
-        width: '300px',
-        background: 'var(--white)',
-        borderRadius: 'var(--radius-2xl)',
-        padding: 'var(--space-6)',
-        border: '2px solid var(--primary-blue)',
-        boxShadow: '0 8px 25px rgba(59, 130, 246, 0.15)',
-        position: 'relative',
-        overflow: 'visible',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '400px',
+        minHeight: '220px',
         flexShrink: 0, // Prevent cards from shrinking
     },
     mobileShowMoreButton: {
@@ -371,6 +365,62 @@ const pageStyles = {
         width: '24px',
         borderRadius: '12px',
         background: 'var(--primary-blue)',
+    },
+    popupOverlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        zIndex: 1000,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 'var(--space-4)',
+        opacity: 0,
+        animation: 'fadeIn 0.2s forwards',
+    },
+    popupContent: {
+        backgroundColor: 'var(--white)',
+        borderRadius: 'var(--radius-xl)',
+        width: '100%',
+        maxWidth: '400px',
+        maxHeight: '90vh',
+        overflowY: 'auto',
+        position: 'relative',
+        boxShadow: 'var(--shadow-2xl)',
+        transform: 'scale(0.95)',
+        animation: 'popIn 0.3s forwards',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    popupHeader: {
+        padding: 'var(--space-5)',
+        borderBottom: '1px solid var(--neutral-200)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-4)',
+    },
+    popupCloseButton: {
+        position: 'absolute',
+        top: 'var(--space-4)',
+        right: 'var(--space-4)',
+        background: 'var(--neutral-100)',
+        border: 'none',
+        borderRadius: '50%',
+        width: '32px',
+        height: '32px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        color: 'var(--neutral-600)',
+        fontSize: '14px',
+    },
+    popupBody: {
+        padding: 'var(--space-5)',
+        overflowY: 'auto',
     },
 
     // CTA Bar - Premium Dark Theme Matching Footer
@@ -583,6 +633,7 @@ export default function Services() {
     const [hoveredCard, setHoveredCard] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
     const [currentSlides, setCurrentSlides] = useState({}); // Object to track slides for each category
+    const [selectedMobileService, setSelectedMobileService] = useState(null);
     const [expandedMobileCard, setExpandedMobileCard] = useState(null);
     const [pausedCarousels, setPausedCarousels] = useState(new Set()); // Track which carousels are paused
     const autoSlideRefs = useRef({}); // Object to track intervals for each category
@@ -717,89 +768,165 @@ export default function Services() {
                     <div style={pageStyles.mobileCategoryUnderline} />
                 </h2>
 
-                <div style={pageStyles.mobileCarousel}>
-                    <div
-                        style={{
-                            ...pageStyles.mobileCarouselTrack,
-                            transform: `translateX(-${currentSlide * (300 + 24)}px)` // 300px card width + 24px gap
-                        }}
-                    >
-                        {services.map((service, idx) => {
-                            const IconComponent = iconMap[service.id] || FaDesktop;
-                            const cardId = `mobile-${category}-${service.id}-${idx}`;
-                            const expandedKey = `${category}-${service.id}`; // Key based on category and service ID
-                            const isExpanded = expandedMobileCard === expandedKey;
+                {/* Vertical Stack of Cards */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-6)', marginBottom: 'var(--space-8)' }}>
+                    {services.map((service, idx) => {
+                        const IconComponent = iconMap[service.id] || FaDesktop;
+                        const cardId = `mobile-${category}-${service.id}-${idx}`;
 
-                            return (
-                                <div
-                                    key={cardId}
-                                    style={isExpanded ? pageStyles.mobileServiceCardExpanded : pageStyles.mobileServiceCard}
-                                >
-                                    <div style={pageStyles.serviceIcon}>
-                                        <IconComponent />
-                                    </div>
+                        return (
+                            <div
+                                key={cardId}
+                                style={pageStyles.mobileServiceCard}
+                            >
+                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                                    {/* Tagline Priority: Top Center */}
+                                    <p style={{
+                                        ...pageStyles.serviceTagline,
+                                        order: 0,
+                                        marginBottom: 'var(--space-2)',
+                                        fontSize: '0.75rem',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '1px',
+                                        color: 'var(--primary-600)',
+                                        fontWeight: '600'
+                                    }}>{service.tagline}</p>
 
-                                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                                        <h3 style={pageStyles.serviceTitle}>{service.title}</h3>
-                                        <p style={pageStyles.serviceTagline}>{service.tagline}</p>
-                                        <p style={{ ...pageStyles.serviceDescription, flex: 1 }}>{service.shortDescription}</p>
+                                    {/* Title Only */}
+                                    <h3 style={{ ...pageStyles.serviceTitle, order: 1, marginBottom: 'var(--space-3)' }}>{service.title}</h3>
 
-                                        {/* Always visible Show More Details button */}
-                                        <button
-                                            style={pageStyles.mobileShowMoreButton}
-                                            onClick={() => handleMobileCardToggle(service, category)}
-                                        >
-                                            {isExpanded ? 'Show Less' : 'Show More Details'}
-                                            {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
-                                        </button>
-                                    </div>
+                                    {/* Tiny Description */}
+                                    <p style={{
+                                        ...pageStyles.serviceDescription,
+                                        order: 2,
+                                        flex: 'none',
+                                        fontSize: '0.85rem',
+                                        lineHeight: '1.4',
+                                        display: '-webkit-box',
+                                        WebkitLineClamp: 2,
+                                        WebkitBoxOrient: 'vertical',
+                                        overflow: 'hidden',
+                                        marginBottom: 'var(--space-4)',
+                                        minHeight: 'auto'
+                                    }}>{service.shortDescription}</p>
 
-                                    {/* Expanded Content */}
-                                    {isExpanded && (
-                                        <div style={pageStyles.mobileExpandedContent}>
-                                            <h4 style={pageStyles.sectionTitle}>Key Features</h4>
-                                            <ul style={pageStyles.featuresList}>
-                                                {service.features.map((feature, featureIdx) => (
-                                                    <li key={featureIdx} style={pageStyles.featureItem}>
-                                                        <FaCheck style={{ color: 'var(--accent-emerald)', fontSize: '12px' }} />
-                                                        {feature}
-                                                    </li>
-                                                ))}
-                                            </ul>
-
-                                            <h4 style={pageStyles.sectionTitle}>Who Uses It</h4>
-                                            <ul style={pageStyles.whoUsesItList}>
-                                                {service.whoUsesIt.map((user, userIdx) => (
-                                                    <li key={userIdx} style={pageStyles.whoUsesItItem}>
-                                                        <span style={pageStyles.featureBullet} />
-                                                        {user}
-                                                    </li>
-                                                ))}
-                                            </ul>
-
-                                            <div style={pageStyles.problemSolved}>
-                                                <strong>Problem Solved:</strong> {service.problemSolved}
-                                            </div>
-                                        </div>
-                                    )}
+                                    {/* Redesigned Show More Button */}
+                                    <button
+                                        style={{
+                                            ...pageStyles.mobileShowMoreButton,
+                                            order: 3,
+                                            background: 'transparent',
+                                            boxShadow: 'none',
+                                            color: 'var(--neutral-500)',
+                                            fontSize: '0.75rem',
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '1px',
+                                            padding: 0,
+                                            marginTop: 'auto',
+                                            height: 'auto',
+                                            minHeight: 'auto'
+                                        }}
+                                        onClick={() => setSelectedMobileService(service)}
+                                    >
+                                        <div style={{ height: '1px', flex: 1, background: 'var(--neutral-200)', marginRight: 'var(--space-3)' }} />
+                                        Show More
+                                        <FaChevronDown style={{ fontSize: '10px', marginLeft: '6px' }} />
+                                        <div style={{ height: '1px', flex: 1, background: 'var(--neutral-200)', marginLeft: 'var(--space-3)' }} />
+                                    </button>
                                 </div>
-                            );
-                        })}
-                    </div>
+                            </div>
+                        );
+                    })}
                 </div>
+            </div>
+        );
+    };
 
-                {/* Carousel Dots */}
-                <div style={pageStyles.mobileCarouselDots}>
-                    {services.map((_, idx) => (
-                        <div
-                            key={idx}
-                            style={{
-                                ...pageStyles.mobileCarouselDot,
-                                ...(currentSlide === idx ? pageStyles.mobileCarouselDotActive : {})
-                            }}
-                            onClick={() => goToSlide(category, idx)}
-                        />
-                    ))}
+    // Service Detail Popup Component
+    const ServiceDetailPopup = () => {
+        if (!selectedMobileService) return null;
+
+        const service = selectedMobileService;
+        const IconComponent = iconMap[service.id] || FaDesktop;
+
+        // Get emoji based on feature keywords
+        const getFeatureEmoji = (text) => {
+            const lower = text.toLowerCase();
+            if (lower.includes('student')) return '🎓';
+            if (lower.includes('course')) return '📚';
+            if (lower.includes('attendance')) return '📊';
+            if (lower.includes('dashboard')) return '📊';
+            if (lower.includes('notice')) return '📢';
+            if (lower.includes('event')) return '📅';
+            if (lower.includes('document')) return '📄';
+            if (lower.includes('link')) return '🔗';
+            if (lower.includes('form')) return '📝';
+            if (lower.includes('application')) return '📋';
+            if (lower.includes('email')) return '📧';
+            if (lower.includes('database')) return '💾';
+            if (lower.includes('filter')) return '🔍';
+            if (lower.includes('pdf')) return '📑';
+            if (lower.includes('opportunity') || lower.includes('idea')) return '💡';
+            if (lower.includes('collaboration') || lower.includes('partner')) return '🤝';
+            if (lower.includes('moderate')) return '🛡️';
+            if (lower.includes('analytics')) return '📈';
+            if (lower.includes('permission')) return '🔐';
+            if (lower.includes('template')) return '📄';
+            return '✨';
+        };
+
+        return (
+            <div style={pageStyles.popupOverlay} onClick={() => setSelectedMobileService(null)}>
+                <div style={pageStyles.popupContent} onClick={e => e.stopPropagation()}>
+                    {/* Header */}
+                    <div style={pageStyles.popupHeader}>
+                        <div style={{ ...pageStyles.serviceIcon, width: '40px', height: '40px', flexShrink: 0 }}>
+                            <IconComponent size={18} />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                            <h3 style={{ ...pageStyles.serviceTitle, marginBottom: '2px', fontSize: '1.1rem' }}>{service.title}</h3>
+                            <p style={{ ...pageStyles.serviceTagline, minHeight: 'auto', marginBottom: 0 }}>{service.tagline}</p>
+                        </div>
+                        <button
+                            style={pageStyles.popupCloseButton}
+                            onClick={() => setSelectedMobileService(null)}
+                        >
+                            <FaTimes />
+                        </button>
+                    </div>
+
+                    {/* Body */}
+                    <div style={pageStyles.popupBody}>
+                        <p style={{ ...pageStyles.serviceDescription, marginBottom: 'var(--space-6)' }}>
+                            {service.fullDescription}
+                        </p>
+
+                        <h4 style={pageStyles.sectionTitle}>Key Features</h4>
+                        <ul style={pageStyles.featuresList}>
+                            {service.features.map((feature, featureIdx) => (
+                                <li key={featureIdx} style={pageStyles.featureItem}>
+                                    <span style={{ fontSize: '16px', marginRight: 'var(--space-3)' }}>
+                                        {getFeatureEmoji(feature)}
+                                    </span>
+                                    {feature}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <h4 style={pageStyles.sectionTitle}>Who Uses It</h4>
+                        <ul style={pageStyles.whoUsesItList}>
+                            {service.whoUsesIt.map((user, userIdx) => (
+                                <li key={userIdx} style={pageStyles.whoUsesItItem}>
+                                    <span style={pageStyles.featureBullet} />
+                                    {user}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <div style={pageStyles.problemSolved}>
+                            <strong>Problem Solved:</strong> {service.problemSolved}
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -836,8 +963,21 @@ export default function Services() {
                         0% { transform: translateX(-100%); }
                         100% { transform: translateX(100%); }
                     }
+
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+
+                    @keyframes popIn {
+                        from { transform: scale(0.95); opacity: 0; }
+                        to { transform: scale(1); opacity: 1; }
+                    }
                 `}</style>
             </Head>
+
+            {/* Mobile Service Detail Popup */}
+            <ServiceDetailPopup />
 
             <Navbar transparent />
 
@@ -868,8 +1008,8 @@ export default function Services() {
                                         <h3 style={pageStyles.ctaTitleMobile}>Need something specific for your campus?</h3>
                                         <p style={pageStyles.ctaTextMobile}>Tailored solutions that integrate seamlessly.</p>
                                     </div>
-                                    <a 
-                                        href="/contact" 
+                                    <a
+                                        href="/contact"
                                         style={pageStyles.ctaButtonMobile}
                                         onMouseEnter={(e) => {
                                             e.target.style.transform = 'translateY(-2px)';
@@ -906,55 +1046,178 @@ export default function Services() {
                                             const cardId = `${category}-${service.id}-${idx}`;
                                             const isHovered = hoveredCard === cardId;
 
+                                            // Apply additional width and height reduction for specific cards
+                                            const isNarrowCard = service.id === 'college-portal' || service.id === 'attendance' || service.id === 'forms-applications';
+                                            const isCompactCard = service.id === 'student-cell' || service.id === 'opportunities';
+                                            const wrapperStyle = isNarrowCard
+                                                ? { ...pageStyles.serviceCardWrapper, maxWidth: '98%' }
+                                                : isCompactCard
+                                                    ? { ...pageStyles.serviceCardWrapper, height: '190px' }
+                                                    : pageStyles.serviceCardWrapper;
+                                            const cardStyle = isCompactCard
+                                                ? { ...pageStyles.serviceCard, height: '190px' }
+                                                : pageStyles.serviceCard;
+                                            const cardHoveredStyle = isCompactCard
+                                                ? { ...pageStyles.serviceCardHovered, minHeight: '190px' }
+                                                : pageStyles.serviceCardHovered;
+
                                             return (
                                                 <div
                                                     key={cardId}
-                                                    style={pageStyles.serviceCardWrapper}
+                                                    style={wrapperStyle}
                                                     onMouseEnter={() => handleCardHover(cardId, true)}
                                                     onMouseLeave={() => handleCardHover(cardId, false)}
                                                 >
-                                                    <div style={isHovered ? pageStyles.serviceCardHovered : pageStyles.serviceCard}>
+                                                    <div style={isHovered ? cardHoveredStyle : cardStyle}>
                                                         <div style={isHovered ? pageStyles.serviceCardTopBarHovered : pageStyles.serviceCardTopBar} />
 
-                                                        <div style={pageStyles.serviceIcon}>
-                                                            <IconComponent />
-                                                        </div>
-
-                                                        <div style={pageStyles.serviceHeader}>
-                                                            <div>
-                                                                <h3 style={pageStyles.serviceTitle}>{service.title}</h3>
-                                                                <p style={pageStyles.serviceTagline}>{service.tagline}</p>
+                                                        <div style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 'var(--space-4)' }}>
+                                                            <div style={pageStyles.serviceIcon}>
+                                                                <IconComponent />
                                                             </div>
-                                                            <FaArrowRight style={isHovered ? pageStyles.arrowIconHovered : pageStyles.arrowIcon} />
+                                                            <div style={{ flex: 1 }}>
+                                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                                                    <div>
+                                                                        <h3 style={pageStyles.serviceTitle}>{service.title}</h3>
+                                                                        <p style={pageStyles.serviceTagline}>{service.tagline}</p>
+                                                                    </div>
+                                                                    <FaArrowRight style={isHovered ? pageStyles.arrowIconHovered : pageStyles.arrowIcon} />
+                                                                </div>
+                                                            </div>
                                                         </div>
-
-                                                        <p style={pageStyles.serviceDescription}>{service.shortDescription}</p>
+                                                        <p style={
+                                                            service.id === 'college-portal'
+                                                                ? (isHovered
+                                                                    ? { ...pageStyles.serviceDescription, marginTop: '-15px' }
+                                                                    : pageStyles.serviceDescription)
+                                                                : service.id === 'email-system'
+                                                                    ? { ...pageStyles.serviceDescription, marginTop: '-20px' }
+                                                                    : pageStyles.serviceDescription
+                                                        }>{service.shortDescription}</p>
 
                                                         {/* Expanded Content - Hidden by default */}
-                                                        <div style={isHovered ? pageStyles.expandedContentVisible : pageStyles.expandedContent}>
-                                                            <h4 style={pageStyles.sectionTitle}>Key Features</h4>
-                                                            <ul style={pageStyles.featuresList}>
-                                                                {service.features.map((feature, featureIdx) => (
-                                                                    <li key={featureIdx} style={pageStyles.featureItem}>
-                                                                        <FaCheck style={{ color: 'var(--accent-emerald)', fontSize: '12px' }} />
-                                                                        {feature}
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
+                                                        <div style={
+                                                            isHovered
+                                                                ? (service.id !== 'student-cell' && service.id !== 'opportunities'
+                                                                    ? { ...pageStyles.expandedContentVisible, maxWidth: '372px' }
+                                                                    : pageStyles.expandedContentVisible)
+                                                                : pageStyles.expandedContent
+                                                        }>
+                                                            {(service.id === 'student-cell' || service.id === 'opportunities') ? (
+                                                                /* Two-column layout for Student Cell & Opportunities */
+                                                                <>
+                                                                    <div style={{ display: 'flex', gap: 'var(--space-4)' }}>
+                                                                        <div style={{ flex: 1 }}>
+                                                                            <h4 style={pageStyles.sectionTitle}>Key Features</h4>
+                                                                            <ul style={pageStyles.featuresList}>
+                                                                                {service.features.map((feature, featureIdx) => {
+                                                                                    // Get emoji based on feature keywords
+                                                                                    const getFeatureEmoji = (text) => {
+                                                                                        const lower = text.toLowerCase();
+                                                                                        if (lower.includes('student')) return '🎓';
+                                                                                        if (lower.includes('course')) return '📚';
+                                                                                        if (lower.includes('attendance')) return '📊';
+                                                                                        if (lower.includes('dashboard')) return '📊';
+                                                                                        if (lower.includes('notice')) return '📢';
+                                                                                        if (lower.includes('event')) return '📅';
+                                                                                        if (lower.includes('document')) return '📄';
+                                                                                        if (lower.includes('link')) return '🔗';
+                                                                                        if (lower.includes('form')) return '📝';
+                                                                                        if (lower.includes('application')) return '📋';
+                                                                                        if (lower.includes('email')) return '📧';
+                                                                                        if (lower.includes('database')) return '💾';
+                                                                                        if (lower.includes('filter')) return '🔍';
+                                                                                        if (lower.includes('pdf')) return '📑';
+                                                                                        if (lower.includes('opportunity') || lower.includes('idea')) return '💡';
+                                                                                        if (lower.includes('collaboration') || lower.includes('partner')) return '🤝';
+                                                                                        if (lower.includes('moderate')) return '🛡️';
+                                                                                        if (lower.includes('analytics')) return '📈';
+                                                                                        if (lower.includes('permission')) return '🔐';
+                                                                                        if (lower.includes('template')) return '📄';
+                                                                                        return '✨';
+                                                                                    };
 
-                                                            <h4 style={pageStyles.sectionTitle}>Who Uses It</h4>
-                                                            <ul style={pageStyles.whoUsesItList}>
-                                                                {service.whoUsesIt.map((user, userIdx) => (
-                                                                    <li key={userIdx} style={pageStyles.whoUsesItItem}>
-                                                                        <span style={pageStyles.featureBullet} />
-                                                                        {user}
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
+                                                                                    return (
+                                                                                        <li key={featureIdx} style={pageStyles.featureItem}>
+                                                                                            <span style={{ fontSize: '14px', marginRight: '8px' }}>{getFeatureEmoji(feature)}</span>
+                                                                                            {feature}
+                                                                                        </li>
+                                                                                    );
+                                                                                })}
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div style={{ flex: 1 }}>
+                                                                            <h4 style={pageStyles.sectionTitle}>Who Uses It</h4>
+                                                                            <ul style={pageStyles.whoUsesItList}>
+                                                                                {service.whoUsesIt.map((user, userIdx) => (
+                                                                                    <li key={userIdx} style={pageStyles.whoUsesItItem}>
+                                                                                        <span style={pageStyles.featureBullet} />
+                                                                                        {user}
+                                                                                    </li>
+                                                                                ))}
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style={pageStyles.problemSolved}>
+                                                                        <strong>Problem Solved:</strong> {service.problemSolved}
+                                                                    </div>
+                                                                </>
+                                                            ) : (
+                                                                /* Standard Layout */
+                                                                <>
+                                                                    <h4 style={pageStyles.sectionTitle}>Key Features</h4>
+                                                                    <ul style={pageStyles.featuresList}>
+                                                                        {service.features.map((feature, featureIdx) => {
+                                                                            // Get emoji based on feature keywords
+                                                                            const getFeatureEmoji = (text) => {
+                                                                                const lower = text.toLowerCase();
+                                                                                if (lower.includes('student')) return '🎓';
+                                                                                if (lower.includes('course')) return '📚';
+                                                                                if (lower.includes('attendance')) return '📊';
+                                                                                if (lower.includes('dashboard')) return '📊';
+                                                                                if (lower.includes('notice')) return '📢';
+                                                                                if (lower.includes('event')) return '📅';
+                                                                                if (lower.includes('document')) return '📄';
+                                                                                if (lower.includes('link')) return '🔗';
+                                                                                if (lower.includes('form')) return '📝';
+                                                                                if (lower.includes('application')) return '📋';
+                                                                                if (lower.includes('email')) return '📧';
+                                                                                if (lower.includes('database')) return '💾';
+                                                                                if (lower.includes('filter')) return '🔍';
+                                                                                if (lower.includes('pdf')) return '📑';
+                                                                                if (lower.includes('opportunity') || lower.includes('idea')) return '💡';
+                                                                                if (lower.includes('collaboration') || lower.includes('partner')) return '🤝';
+                                                                                if (lower.includes('moderate')) return '🛡️';
+                                                                                if (lower.includes('analytics')) return '📈';
+                                                                                if (lower.includes('permission')) return '🔐';
+                                                                                if (lower.includes('template')) return '📄';
+                                                                                return '✨';
+                                                                            };
 
-                                                            <div style={pageStyles.problemSolved}>
-                                                                <strong>Problem Solved:</strong> {service.problemSolved}
-                                                            </div>
+                                                                            return (
+                                                                                <li key={featureIdx} style={pageStyles.featureItem}>
+                                                                                    <span style={{ fontSize: '14px', marginRight: '8px' }}>{getFeatureEmoji(feature)}</span>
+                                                                                    {feature}
+                                                                                </li>
+                                                                            );
+                                                                        })}
+                                                                    </ul>
+
+                                                                    <h4 style={pageStyles.sectionTitle}>Who Uses It</h4>
+                                                                    <ul style={pageStyles.whoUsesItList}>
+                                                                        {service.whoUsesIt.map((user, userIdx) => (
+                                                                            <li key={userIdx} style={pageStyles.whoUsesItItem}>
+                                                                                <span style={pageStyles.featureBullet} />
+                                                                                {user}
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+
+                                                                    <div style={pageStyles.problemSolved}>
+                                                                        <strong>Problem Solved:</strong> {service.problemSolved}
+                                                                    </div>
+                                                                </>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
