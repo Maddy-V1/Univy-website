@@ -192,6 +192,22 @@ const PageHero = ({
                     )}
                 </div>
             </div>
+
+            {/* Scroll Indicator */}
+            <div className={styles.scrollIndicator}>
+                <span className={styles.scrollText}>Scroll</span>
+                <div className={styles.scrollArrow}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path 
+                            d="M12 5V19M12 19L7 14M12 19L17 14" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+                </div>
+            </div>
         </section>
     );
 };
