@@ -110,9 +110,6 @@
 /* Visual Card - Carousel */
 .visual {
     position: relative;
-    /* Ensure it doesn't overflow grid cell but maintains aspect ratio */
-    height: 100%;
-    min-height: 480px;
 }
 
 .visualCard {
@@ -123,11 +120,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-blue);
-    height: 100%;
-    /* Keep flexible height but min for content */
-    min-height: 520px; 
-    display: flex;
-    flex-direction: column;
+    min-height: 400px;
 }
 
 .visualCardBg {
@@ -137,57 +130,34 @@
     width: 100%;
     height: 100%;
     background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-    z-index: 1;
 }
 
 /* Carousel Views */
 .carouselView {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: var(--space-6);
+    top: var(--space-6);
+    left: var(--space-6);
+    right: var(--space-6);
+    bottom: var(--space-10);
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     opacity: 0;
-    transform: scale(0.95);
-    pointer-events: none; /* Prevent clicks on hidden elements */
-    display: flex; /* Flex layout for side-by-side content */
+    transform: translateY(20px);
 }
 
 .carouselView.active {
     opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
-    z-index: 10;
+    transform: translateY(0);
 }
 
 .carouselView.inactive {
     opacity: 0;
-    transform: scale(1.05);
+    transform: translateY(-20px);
 }
 
 .visualContent {
     position: relative;
     z-index: 10;
     height: 100%;
-    flex: 1; /* Take up remaining space */
-    max-width: 65%; /* Leave room for side graphics */
-    display: flex;
-    flex-direction: column;
-}
-
-.sideGraphic {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 35%;
-    height: 100%;
-    z-index: 5;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .carouselHeader {
@@ -205,7 +175,6 @@
     margin-bottom: var(--space-2);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    backdrop-filter: blur(4px);
 }
 
 .solutionBadge {
@@ -219,134 +188,70 @@
     margin-bottom: var(--space-2);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    backdrop-filter: blur(4px);
 }
 
 .visualTitle {
     font-family: var(--font-display);
     font-size: var(--text-xl);
     font-weight: var(--font-bold);
-    margin-bottom: var(--space-3);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: var(--space-4);
 }
 
 .visualList {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
     list-style: none;
     padding: 0;
     margin: 0;
+    max-height: 280px;
+    overflow-y: auto;
 }
 
 .visualListItem {
     display: flex;
     align-items: flex-start;
     gap: var(--space-3);
-    padding: var(--space-3); /* Larger clickable area */
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-lg);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    cursor: default;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: var(--text-sm);
+    line-height: 1.5;
 }
 
-.visualListItem:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateX(6px) scale(1.02);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.visualListItem:last-child {
+    border-bottom: none;
 }
 
 .visualIcon {
-    width: 42px; /* Much larger 'pic' like icon */
-    height: 42px;
-    border-radius: 12px;
+    width: 18px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
+    font-size: 0.65rem;
     flex-shrink: 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-}
-
-.visualListItem:hover .visualIcon {
-    transform: rotate(-5deg) scale(1.1);
+    margin-top: 2px;
 }
 
 .problemIcon {
-    background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%);
-    color: white;
+    background: rgba(239, 68, 68, 0.3);
+    color: #FEE2E2;
 }
 
 .solutionIcon {
-    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    color: white;
-}
-
-.itemContent {
-    flex: 1;
-}
-
-.itemTitle {
-    display: block;
-    font-weight: var(--font-bold);
-    font-size: var(--text-base);
-    margin-bottom: 2px;
+    background: rgba(34, 197, 94, 0.3);
+    color: #D1FAE5;
 }
 
 .problemDesc {
-    display: block;
     font-size: var(--text-xs);
     opacity: 0.8;
-    line-height: 1.4;
+    margin-top: var(--space-1);
 }
-
-/* Side Graphics */
-.graphicContent {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.floatingIcon {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    animation: float 6s ease-in-out infinite;
-}
-
-.chaosIcon1 { top: 15%; right: 10%; width: 50px; height: 50px; animation-duration: 4s; transform: rotate(15deg); background: rgba(239, 68, 68, 0.2); }
-.chaosIcon2 { top: 40%; right: 25%; width: 40px; height: 40px; animation-duration: 5s; transform: rotate(-10deg); background: rgba(239, 68, 68, 0.15); }
-.chaosIcon3 { top: 65%; right: 15%; width: 60px; height: 60px; animation-duration: 7s; transform: rotate(5deg); background: rgba(239, 68, 68, 0.25); }
-
-.orderIcon1 { top: 20%; right: 15%; width: 50px; height: 50px; animation-duration: 6s; background: rgba(16, 185, 129, 0.2); }
-.orderIcon2 { top: 45%; right: 15%; width: 50px; height: 50px; animation-duration: 6s; animation-delay: 1s; background: rgba(16, 185, 129, 0.2); }
-.orderIcon3 { top: 70%; right: 15%; width: 50px; height: 50px; animation-duration: 6s; animation-delay: 2s; background: rgba(16, 185, 129, 0.2); }
-
-.connectorLine {
-    position: absolute;
-    right: calc(15% + 24px); /* Center of icons */
-    top: 25%;
-    bottom: 25%;
-    width: 2px;
-    background: rgba(16, 185, 129, 0.3);
-    z-index: -1;
-}
-
 
 /* Carousel Indicators */
 .carouselIndicators {
     position: absolute;
-    bottom: var(--space-6);
+    bottom: var(--space-4);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -364,13 +269,8 @@
 }
 
 .indicatorActive {
-    background: var(--white);
-    transform: scale(1.5);
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0) rotate(var(--rotation, 0deg)); }
-    50% { transform: translateY(-10px) rotate(var(--rotation, 0deg)); }
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
 }
 
 /* Responsive */
@@ -382,17 +282,5 @@
 
     .featuresList {
         grid-template-columns: 1fr;
-    }
-    
-    .visualContent {
-        max-width: 100%;
-    }
-    
-    .sideGraphic {
-        display: none; /* Hide side graphics on mobile to save space */
-    }
-    
-    .visualCard {
-        min-height: 550px; /* More height for mobile stacking */
     }
 }
