@@ -7,7 +7,6 @@ import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import PageHero from '../components/common/PageHero';
 import TimelineSection from '../components/how-it-works/TimelineSection';
-import SuccessMetricsSection from '../components/how-it-works/SuccessMetricsSection';
 import CTASection from '../components/how-it-works/CTASection';
 
 export default function HowItWorks() {
@@ -27,12 +26,10 @@ export default function HowItWorks() {
                 <PageHero
                     title="From Contact to Campus Transformation"
                     description="A simple, proven process to bring your college onto Univy."
-                    size="medium"
+                    size="small"
                 />
 
                 <TimelineSection />
-
-                <SuccessMetricsSection />
 
                 <CTASection />
             </main>

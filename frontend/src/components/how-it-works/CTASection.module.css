@@ -1,72 +1,81 @@
 /* =============================================
-   CTA SECTION - Simple Blue/White Basic Theme
+   CTA SECTION - Custom Plan Style (Matching Pricing Page)
    ============================================= */
 
 .section {
-    background: var(--white);
-    padding: var(--section-padding) 0;
+    background: var(--neutral-50);
+    padding: var(--space-2) 0 var(--space-6) 0;
+    /* Significantly reduced top spacing (half of original), maintained bottom spacing */
     position: relative;
-    overflow: hidden;
-}
-
-/* Background Elements */
-.section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--primary-blue-light), var(--primary-blue), transparent);
-    opacity: 0.3;
 }
 
 .container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
+    max-width: 100%;
+    /* Full screen width */
+    margin: 0;
+    /* Remove auto margins */
     padding: 0 var(--space-6);
     position: relative;
-    z-index: 1;
 }
 
-/* Content */
+/* Content - Matching Custom Plan Style */
 .content {
+    padding: var(--space-6) var(--space-8);
+    /* Reduced vertical padding for less height */
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    border: 2px dashed var(--primary-blue);
     text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-    background: var(--neutral-50);
-    border: 1px solid var(--neutral-200);
-    border-radius: var(--radius-xl);
-    padding: var(--space-12) var(--space-8);
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-}
-
-.content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
+    max-width: 100%;
+    /* Full width */
+    margin: 0;
+    /* Remove auto margins */
     width: 100%;
-    height: 3px;
-    background: var(--gradient-primary);
+    /* Ensure full width */
+    box-sizing: border-box;
+    /* Include padding in width calculation */
 }
 
 .title {
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: var(--text-2xl);
     font-weight: var(--font-bold);
     color: var(--neutral-900);
+    margin-bottom: var(--space-2);
+}
+
+.tagline {
+    font-size: var(--text-base);
+    color: var(--primary-blue);
+    font-weight: var(--font-medium);
     margin-bottom: var(--space-4);
-    line-height: 1.2;
 }
 
 .description {
-    font-size: var(--text-base);
     color: var(--neutral-600);
+    max-width: 800px;
+    /* Limit text width for readability */
+    margin: 0 auto var(--space-4);
+    /* Reduced bottom margin */
     line-height: 1.6;
-    margin-bottom: var(--space-8);
+}
+
+/* Feature Pills */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    /* Reduced bottom margin */
+}
+
+.feature {
+    padding: var(--space-2) var(--space-4);
+    background: var(--gradient-card);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    color: var(--neutral-700);
 }
 
 /* CTA Buttons */
@@ -80,24 +89,41 @@
 /* Responsive */
 @media (max-width: 768px) {
     .content {
-        padding: var(--space-8) var(--space-4);
+        padding: var(--space-4) var(--space-4);
+        /* Further reduced padding for mobile */
+        border-radius: var(--radius-xl);
+        /* Smaller border radius for mobile */
+    }
+
+    .title {
+        font-size: var(--text-xl);
+    }
+
+    .description {
+        font-size: var(--text-sm);
+        max-width: 100%;
+        /* Full width on mobile */
+    }
+
+    .features {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+        /* Reduced gap for mobile */
+    }
+
+    .feature {
+        width: fit-content;
     }
 
     .buttons {
         flex-direction: column;
         align-items: center;
+        gap: var(--space-3);
     }
 
     .buttons > * {
         width: 100%;
         max-width: 280px;
-    }
-
-    .title {
-        font-size: 1.5rem;
-    }
-
-    .description {
-        font-size: var(--text-sm);
     }
 }
