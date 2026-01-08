@@ -14,11 +14,13 @@ const PageHero = ({
     size = 'medium' // 'small', 'medium', 'large'
 }) => {
     const canvasRef = useRef(null);
+    const heroRef = useRef(null);
 
     useEffect(() => {
         // Initialize interactive canvas background
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        const heroSection = heroRef.current;
+        if (!canvas || !heroSection) return;
 
         const ctx = canvas.getContext('2d');
         
@@ -31,15 +33,37 @@ const PageHero = ({
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Mouse tracking
+        // Mouse tracking - only within hero section
         const mouse = { x: null, y: null };
         
         const handleMouseMove = (event) => {
-            mouse.x = event.clientX;
-            mouse.y = event.clientY;
+            const rect = heroSection.getBoundingClientRect();
+            const isInsideHero = (
+                event.clientX >= rect.left &&
+                event.clientX <= rect.right &&
+                event.clientY >= rect.top &&
+                event.clientY <= rect.bottom
+            );
+            
+            if (isInsideHero) {
+                mouse.x = event.clientX;
+                mouse.y = event.clientY;
+            } else {
+                // Reset mouse position when outside hero section
+                mouse.x = null;
+                mouse.y = null;
+            }
+        };
+
+        const handleMouseLeave = () => {
+            // Reset mouse position when leaving hero section
+            mouse.x = null;
+            mouse.y = null;
         };
         
+        // Add event listeners to window for mouse tracking
         window.addEventListener('mousemove', handleMouseMove);
+        heroSection.addEventListener('mouseleave', handleMouseLeave);
 
         // Dot class
         class Dot {
@@ -127,11 +151,12 @@ const PageHero = ({
         return () => {
             window.removeEventListener('resize', resizeCanvas);
             window.removeEventListener('mousemove', handleMouseMove);
+            heroSection.removeEventListener('mouseleave', handleMouseLeave);
         };
     }, []);
 
     return (
-        <section className={`${styles.hero} ${styles[size]}`}>
+        <section className={`${styles.hero} ${styles[size]}`} ref={heroRef}>
             {/* Interactive Canvas Background */}
             <canvas 
                 ref={canvasRef}

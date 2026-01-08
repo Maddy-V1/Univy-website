@@ -430,44 +430,44 @@ export const PROBLEMS = [
 export const HOW_IT_WORKS_STEPS = [
     {
         id: 1,
-        title: 'You Reach Out',
-        description: 'Fill our contact form or request a demo. We respond within 24 hours.',
+        title: 'Initial Contact',
+        description: 'You fill our contact form or request a demo with a brief description of your college setup. We respond within 24 hours to schedule a discussion.',
         duration: '1 day',
     },
     {
         id: 2,
         title: 'Discovery Call',
-        description: '30-minute call to understand your workflows, show demo, and answer questions.',
+        description: 'A 30-minute call to understand your workflows and identify key requirements. We show you the platform demo and provide a pricing estimate.',
         duration: '1 week',
     },
     {
         id: 3,
         title: 'Proposal & Agreement',
-        description: 'Customized proposal with detailed service breakdown and clear pricing.',
+        description: 'We create a customized proposal with a detailed service breakdown and clear pricing structure. Once approved, we sign the agreement.',
         duration: '1-2 weeks',
     },
     {
         id: 4,
         title: 'Portal Setup',
-        description: 'Portal configured with your branding. Services activated per your plan.',
+        description: 'We configure the portal with your branding, activate services per your plan, and set up the initial admin accounts and department structure.',
         duration: '2-4 weeks',
     },
     {
         id: 5,
         title: 'Training & Onboarding',
-        description: 'Admin training, faculty orientation, and user guides provided.',
+        description: 'We conduct training sessions for your admins, faculty, and Student Cell members. User guides and resources are provided.',
         duration: '1 week',
     },
     {
         id: 6,
         title: 'Student Launch',
-        description: 'Campus-wide rollout with on-call support and Campus Mantri active.',
+        description: 'We help you announce the launch, create student accounts, and onboard them. Our team provides on-call support during this critical phase.',
         duration: '2 weeks',
     },
     {
         id: 7,
         title: 'Ongoing Support',
-        description: 'Regular check-ins, feature updates, and continuous improvement.',
+        description: 'We continue with regular check-ins, feature updates, and usage analytics to ensure your campus management keeps improving.',
         duration: 'Ongoing',
     },
 ];

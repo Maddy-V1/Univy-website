@@ -3,7 +3,22 @@
  */
 
 import { useState, useEffect } from 'react';
-import { FaCheck, FaArrowRight, FaExclamationTriangle, FaFileAlt, FaUsers, FaUnlink } from 'react-icons/fa';
+import { 
+    FaCheck, 
+    FaArrowRight, 
+    FaExclamationTriangle, 
+    FaFileAlt, 
+    FaUsers, 
+    FaUnlink,
+    FaDesktop,
+    FaBullhorn,
+    FaChartLine,
+    FaDatabase,
+    FaTimes,
+    FaQuestion,
+    FaLink,
+    FaShieldAlt
+} from 'react-icons/fa';
 import Button from '../common/Button';
 import { PROBLEMS } from '../../utils/constants';
 import styles from './WhatIsUnivySection.module.css';
@@ -18,19 +33,19 @@ const features = [
 ];
 
 const problemIconMap = {
-    chaos: FaExclamationTriangle,
+    chaos: FaBullhorn, // Changed to Bullhorn for communication chaos
     manual: FaFileAlt,
     struggles: FaUsers,
     disconnected: FaUnlink,
 };
 
 const solutionItems = [
-    'Unified portal for all stakeholders',
-    'Digital attendance & academics',
-    'Official announcements channel',
-    'Student Cell tools & database',
-    'Forms & applications online',
-    'Analytics & admin controls',
+    { text: 'Unified portal for all stakeholders', icon: FaDesktop },
+    { text: 'Digital attendance & academics', icon: FaCheck },
+    { text: 'Official announcements channel', icon: FaBullhorn },
+    { text: 'Student Cell tools & database', icon: FaUsers },
+    { text: 'Forms & applications online', icon: FaFileAlt },
+    { text: 'Analytics & admin controls', icon: FaChartLine },
 ];
 
 const WhatIsUnivySection = () => {
@@ -39,7 +54,7 @@ const WhatIsUnivySection = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setShowProblems(prev => !prev);
-        }, 4000); // Switch every 4 seconds
+        }, 5000); // Slower switch (5s) to let user read/hover
 
         return () => clearInterval(interval);
     }, []);
@@ -106,18 +121,31 @@ const WhatIsUnivySection = () => {
                                             const IconComponent = problemIconMap[problem.icon] || FaExclamationTriangle;
                                             return (
                                                 <li key={idx} className={styles.visualListItem}>
-                                                    <span className={`${styles.visualIcon} ${styles.problemIcon}`}>
+                                                    <div className={`${styles.visualIcon} ${styles.problemIcon}`}>
                                                         <IconComponent />
-                                                    </span>
-                                                    <div>
-                                                        <strong>{problem.title}</strong>
-                                                        <br />
+                                                    </div>
+                                                    <div className={styles.itemContent}>
+                                                        <span className={styles.itemTitle}>{problem.title}</span>
                                                         <span className={styles.problemDesc}>{problem.description}</span>
                                                     </div>
                                                 </li>
                                             );
                                         })}
                                     </ul>
+                                </div>
+                                {/* Chaotic Side Graphic */}
+                                <div className={styles.sideGraphic}>
+                                    <div className={styles.graphicContent}>
+                                        <div className={`${styles.floatingIcon} ${styles.chaosIcon1}`} style={{'--rotation': '15deg'}}>
+                                            <FaExclamationTriangle />
+                                        </div>
+                                        <div className={`${styles.floatingIcon} ${styles.chaosIcon2}`} style={{'--rotation': '-10deg'}}>
+                                            <FaTimes />
+                                        </div>
+                                        <div className={`${styles.floatingIcon} ${styles.chaosIcon3}`} style={{'--rotation': '5deg'}}>
+                                            <FaQuestion />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -131,20 +159,43 @@ const WhatIsUnivySection = () => {
                                     <ul className={styles.visualList}>
                                         {solutionItems.map((item, idx) => (
                                             <li key={idx} className={styles.visualListItem}>
-                                                <span className={`${styles.visualIcon} ${styles.solutionIcon}`}>
-                                                    <FaCheck />
-                                                </span>
-                                                {item}
+                                                <div className={`${styles.visualIcon} ${styles.solutionIcon}`}>
+                                                    <item.icon />
+                                                </div>
+                                                <div className={styles.itemContent}>
+                                                    <span className={styles.itemTitle}>{item.text}</span>
+                                                </div>
                                             </li>
                                         ))}
                                     </ul>
+                                </div>
+                                {/* Organized Side Graphic */}
+                                <div className={styles.sideGraphic}>
+                                    <div className={styles.graphicContent}>
+                                        <div className={styles.connectorLine} />
+                                        <div className={`${styles.floatingIcon} ${styles.orderIcon1}`}>
+                                            <FaDesktop />
+                                        </div>
+                                        <div className={`${styles.floatingIcon} ${styles.orderIcon2}`}>
+                                            <FaDatabase />
+                                        </div>
+                                        <div className={`${styles.floatingIcon} ${styles.orderIcon3}`}>
+                                            <FaLink />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Carousel Indicators */}
                             <div className={styles.carouselIndicators}>
-                                <div className={`${styles.indicator} ${showProblems ? styles.indicatorActive : ''}`} />
-                                <div className={`${styles.indicator} ${!showProblems ? styles.indicatorActive : ''}`} />
+                                <div 
+                                    className={`${styles.indicator} ${showProblems ? styles.indicatorActive : ''}`} 
+                                    onClick={() => setShowProblems(true)}
+                                />
+                                <div 
+                                    className={`${styles.indicator} ${!showProblems ? styles.indicatorActive : ''}`} 
+                                    onClick={() => setShowProblems(false)}
+                                />
                             </div>
                         </div>
                     </div>

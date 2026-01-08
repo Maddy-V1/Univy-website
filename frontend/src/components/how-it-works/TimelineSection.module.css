@@ -1,0 +1,387 @@
+/* =============================================
+   TIMELINE SECTION - ENHANCED
+   ============================================= */
+
+.section {
+    padding: var(--space-20) 0;
+    background: var(--neutral-50);
+    position: relative;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+/* Background Decorations */
+.curvedLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 102, 255, 0.1) 0%, transparent 40%);
+    z-index: 0;
+}
+
+.container {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    position: relative;
+    z-index: 2;
+}
+
+.timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--space-12) 0;
+}
+
+/* Base Gray Line */
+.timelineLineBg {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--neutral-200);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+/* Active Colored Line (Height controlled by JS) */
+.timelineLineProgress {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    width: 4px;
+    /* Changed from teal/green mix to deep blues */
+    background: linear-gradient(180deg, var(--neutral-900) 0%, var(--primary-blue) 50%, var(--primary-blue-dark) 100%);
+    border-radius: 4px;
+    z-index: 2;
+    box-shadow: 0 0 15px rgba(0, 102, 255, 0.5);
+    transition: height 0.1s linear;
+    will-change: height;
+}
+
+.step {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+    /* Significantly reduced to fit 2 per screen */
+    z-index: 5;
+    /* Force GPU layer */
+    transform: translateZ(0);
+}
+
+/* Step Content Card */
+.stepContent {
+    width: 38%;
+    /* Decreased from 42% */
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    padding: var(--space-5);
+    /* Reduced padding for compact height */
+    border-radius: var(--radius-xl);
+    /* Slightly smaller radius radius-2xl -> xl */
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 5;
+    will-change: transform;
+}
+
+.step.active .stepContent {
+    background: #fff;
+    /* Changed border color to deep blue */
+    border-color: var(--primary-blue);
+    box-shadow:
+        0 20px 40px -5px rgba(10, 25, 41, 0.15),
+        /* Darker shadow tone */
+        0 0 0 1px var(--primary-blue);
+    transform: scale(1.02);
+}
+
+/* Decorative Visual (Opposite Side) */
+.stepVisual {
+    position: absolute;
+    width: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(20px) scale(0.7);
+    /* Smaller start scale */
+    transition: all 0.6s ease-out 0.1s;
+    z-index: 0;
+    will-change: transform, opacity;
+}
+
+.step.active .stepVisual {
+    opacity: 1;
+    transform: translateY(0) scale(0.85);
+    /* Smaller active scale */
+}
+
+.visualInner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    /* Reduced sizing */
+    height: 160px;
+}
+
+/* Floating Shapes */
+.visualShape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0.3;
+    /* Slightly reducing opacity */
+    animation: float 8s infinite ease-in-out;
+    will-change: transform;
+}
+
+/* Changed colors to blackish/blue theme */
+.shape1 {
+    width: 120px;
+    height: 120px;
+    background: var(--neutral-800);
+    top: -10px;
+    right: -10px;
+    animation-delay: 0s;
+}
+
+.shape2 {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-blue-dark);
+    bottom: -5px;
+    left: -5px;
+    animation-delay: 2s;
+}
+
+.visualIconLarge {
+    font-size: 6rem;
+    /* Reduced icon size */
+    color: var(--neutral-300);
+    z-index: 2;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.05));
+    transform: rotate(-10deg);
+    transition: all 0.5s ease;
+    will-change: transform;
+}
+
+.step.active .visualIconLarge {
+    color: rgba(10, 25, 41, 0.1);
+    /* Darker tint when active */
+    transform: rotate(0deg) scale(1.1);
+}
+
+/* Step Number/Icon Center */
+.stepMarker {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    /* Decreased from 60px */
+    height: 56px;
+    border-radius: 50%;
+    background: var(--neutral-50);
+    border: 3px solid var(--white);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+    will-change: transform;
+}
+
+.step.active .stepMarker {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
+    /* Blue shadow */
+    border-color: var(--primary-blue);
+}
+
+.stepMarkerInner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-500);
+    font-size: 1.15rem;
+    /* Slightly smaller */
+    background: var(--white);
+    transition: all 0.3s ease;
+}
+
+.step.active .stepMarkerInner {
+    /* Changed gradient to deep blue */
+    background: linear-gradient(135deg, var(--neutral-900) 0%, var(--primary-blue) 100%);
+    color: var(--white);
+}
+
+/* Alternating Layout */
+/* Odd Steps: Content Left, Visual Right */
+.step:nth-child(odd) .stepContent {
+    margin-right: auto;
+    text-align: right;
+    transform-origin: right center;
+}
+
+.step:nth-child(odd) .stepVisual {
+    right: 0;
+    left: auto;
+}
+
+/* Even Steps: Content Right, Visual Left */
+.step:nth-child(even) .stepContent {
+    margin-left: auto;
+    text-align: left;
+    transform-origin: left center;
+}
+
+.step:nth-child(even) .stepVisual {
+    left: 0;
+    right: auto;
+}
+
+/* Connecting Beams (Horizontal) */
+.stepContent::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0;
+    /* Animated width */
+    height: 2px;
+    background: var(--primary-blue-light);
+    transition: width 0.5s ease 0.2s;
+}
+
+.step:nth-child(odd) .stepContent::before {
+    right: -40px;
+    /* Bridge gap to center */
+}
+
+.step:nth-child(even) .stepContent::before {
+    left: -40px;
+}
+
+.step.active .stepContent::before {
+    width: 40px;
+}
+
+/* Typography & Badges */
+.stepHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.step:nth-child(odd) .stepHeader {
+    flex-direction: row-reverse;
+}
+
+.stepTitle {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: var(--font-bold);
+    color: var(--neutral-900);
+    margin: 0;
+}
+
+.stepDuration {
+    padding: 6px 12px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: var(--font-bold);
+    color: var(--secondary-indigo);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.stepDescription {
+    font-size: 1.05rem;
+    color: var(--neutral-600);
+    line-height: 1.7;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(10px, -20px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+    .timelineLineBg,
+    .timelineLineProgress {
+        left: 30px;
+    }
+
+    .step {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: var(--space-10);
+    }
+
+    .stepVisual {
+        display: none;
+        /* Hide decorative visuals on mobile to save space */
+    }
+
+    .stepMarker {
+        left: 30px;
+        top: 0;
+        transform: translate(-50%, 0);
+    }
+
+    .step.active .stepMarker {
+        transform: translate(-50%, 0) scale(1.1);
+    }
+
+    .stepContent {
+        width: calc(100% - 70px);
+        margin-left: 70px !important;
+        margin-right: 0 !important;
+        text-align: left !important;
+        margin-top: 10px;
+    }
+
+    .step:nth-child(odd) .stepHeader {
+        flex-direction: row;
+    }
+
+    .stepContent::before {
+        display: none;
+        /* Hide horizontal beams on mobile */
+    }
+}
