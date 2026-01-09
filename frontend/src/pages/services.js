@@ -311,7 +311,7 @@ const pageStyles = {
         background: 'var(--white)',
         borderRadius: 'var(--radius-2xl)',
         padding: 'var(--space-6)',
-        border: '1px solid var(--neutral-200)',
+        border: '1px solid var(--primary-blue)',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
         position: 'relative',
         overflow: 'visible',
@@ -390,6 +390,7 @@ const pageStyles = {
         overflowY: 'auto',
         position: 'relative',
         boxShadow: 'var(--shadow-2xl)',
+        border: '1px solid var(--primary-blue)',
         transform: 'scale(0.95)',
         animation: 'popIn 0.3s forwards',
         display: 'flex',
@@ -788,7 +789,7 @@ export default function Services() {
                                         fontSize: '0.75rem',
                                         textTransform: 'uppercase',
                                         letterSpacing: '1px',
-                                        color: 'var(--primary-600)',
+                                        color: 'var(--primary-blue)',
                                         fontWeight: '600'
                                     }}>{service.tagline}</p>
 
@@ -817,7 +818,7 @@ export default function Services() {
                                             order: 3,
                                             background: 'transparent',
                                             boxShadow: 'none',
-                                            color: 'var(--neutral-500)',
+                                            color: 'var(--neutral-900)',
                                             fontSize: '0.75rem',
                                             textTransform: 'uppercase',
                                             letterSpacing: '1px',
@@ -828,10 +829,10 @@ export default function Services() {
                                         }}
                                         onClick={() => setSelectedMobileService(service)}
                                     >
-                                        <div style={{ height: '1px', flex: 1, background: 'var(--neutral-200)', marginRight: 'var(--space-3)' }} />
+                                        <div style={{ height: '1px', flex: 1, background: 'var(--primary-blue)', marginRight: 'var(--space-3)' }} />
                                         Show More
                                         <FaChevronDown style={{ fontSize: '10px', marginLeft: '6px' }} />
-                                        <div style={{ height: '1px', flex: 1, background: 'var(--neutral-200)', marginLeft: 'var(--space-3)' }} />
+                                        <div style={{ height: '1px', flex: 1, background: 'var(--primary-blue)', marginLeft: 'var(--space-3)' }} />
                                     </button>
                                 </div>
                             </div>

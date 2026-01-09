@@ -69,7 +69,7 @@ export const NAV_LINKS = [
     { label: 'Services', href: '/services' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'How It Works', href: '/how-it-works' },
-    { label: 'Team', href: '/team' },
+    { label: 'About', href: '/about' },
 ];
 
 // ========================
