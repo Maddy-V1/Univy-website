@@ -1,6 +1,6 @@
 # College Tech - Univy (Combined Vercel Deployment)
 
-A unified Next.js application combining frontend and backend for deployment on Vercel.
+A unified Next.js application combining frontend and backend for deployment on Vercel...
 
 ## Project Structure
 
